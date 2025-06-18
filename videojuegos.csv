@@ -1,0 +1,11 @@
+nombre,cpu_min,gpu_min,ram_min,cpu_rec,gpu_rec,ram_rec
+The Witcher 3,Intel Core i5-2500K,Nvidia GTX 660,6,Intel Core i7-3770,Nvidia GTX 770,8
+Cyberpunk 2077,Intel Core i5-3570K,Nvidia GTX 780,8,Intel Core i7-4790,Nvidia GTX 1060,12
+Minecraft,Intel Core i3-3210,Intel HD Graphics 4000,4,Intel Core i5-4690,Nvidia GTX 960,8
+Counter-Strike: Global Offensive,Intel Core 2 Duo E6600,Nvidia 8600 GT,2,Intel Core i3-4370,Nvidia GTX 1050 Ti,8
+Red Dead Redemption 2,Intel Core i5-2500K,Nvidia GTX 770,8,Intel Core i7-4770K,Nvidia GTX 1060,12
+GTA V,Intel Core 2 Quad Q6600,Nvidia 9800 GT,4,Intel Core i5-3470,Nvidia GTX 660,8
+Hollow Knight,Intel Core 2 Duo E5200,GeForce 9800GTX+,4,Intel Core i5,GeForce GTS 250,8
+DOOM Eternal,Intel Core i5-4430,Nvidia GTX 1050,8,Intel Core i7-6700K,Nvidia GTX 1080,16
+Valorant,Intel Core 2 Duo E8400,Intel HD 3000,4,Intel i3-4150,GeForce GT 730,4
+League of Legends,Intel Pentium 4 3.0GHz,GeForce 8600M GT,2,Intel Core i3-530,GeForce 9600GT,4
