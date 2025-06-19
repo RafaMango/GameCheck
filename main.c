@@ -245,7 +245,8 @@ void mostrarMenu() {
     printf("Seleccione una opción: ");
 }
 
-int main() {
+int main() 
+{
     limpiarPantalla();
     Map *mapa = sorted_map_create(lower_than_str);
     List *lista = list_create();
@@ -267,9 +268,12 @@ int main() {
         mostrarMenu();
         scanf("%d", &opcion); limpiarBuffer();
         switch(opcion) {
-            case 1: mostrarCatalogo(lista); break;
-            case 2: ingresarEspecificaciones(&pc); break;
-            case 3: verJuegosCompatibles(lista, &pc); break;
+            case 1: mostrarCatalogo(lista); 
+            break;
+            case 2: ingresarEspecificaciones(&pc); 
+            break;
+            case 3: verJuegosCompatibles(lista, &pc); 
+            break;
             case 4: buscarJuego(mapa, historial, username, &pc); break;
             case 5: verHistorial(historial, username); break;
             case 6: agregarJuego(mapa, lista); break;

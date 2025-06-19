@@ -60,7 +60,8 @@ int obtener_puntaje(ComponentePuntaje *tabla, int n, const char *modelo_usuario)
 }
 
 // Evaluar compatibilidad avanzada CPU+GPU+RAM
-int evaluar_compatibilidad(EspecificacionesPC *pc, Juego *juego) {
+int evaluar_compatibilidad(EspecificacionesPC *pc, Juego *juego) 
+{
     int cpu_user_score = obtener_puntaje(cpu_scores, sizeof(cpu_scores)/sizeof(cpu_scores[0]), pc->cpu);
     int gpu_user_score = obtener_puntaje(gpu_scores, sizeof(gpu_scores)/sizeof(gpu_scores[0]), pc->gpu);
 
@@ -79,7 +80,8 @@ int evaluar_compatibilidad(EspecificacionesPC *pc, Juego *juego) {
 }
 
 // Función para mostrar un juego con compatibilidad
-void mostrar_juego_compatibilidad(Juego *juego, int compat) {
+void mostrar_juego_compatibilidad(Juego *juego, int compat) 
+{
     printf("\n%s\n", juego->nombre);
     printf("  Minimos: CPU: %s | GPU: %s | RAM: %dGB\n", juego->cpu_min, juego->gpu_min, juego->ram_min);
     printf("  Recomendados: CPU: %s | GPU: %s | RAM: %dGB\n", juego->cpu_rec, juego->gpu_rec, juego->ram_rec);
