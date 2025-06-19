@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+//hola
 #define ARCHIVO_CATALOGO "videojuegosDos.csv"
 #define MAX_USERNAME 50
 
