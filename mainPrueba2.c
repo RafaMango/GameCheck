@@ -49,6 +49,61 @@ ComponentePuntaje gpu_scores[] = {
     {"RX 6800", 85}
 };
 
+/*
+ComponentePuntaje cpu_scores[] = {
+    // Intel CPUs
+    {"i3-3210", 30},
+    {"i5-2500K", 50},
+    {"i7-4790", 70},
+    {"i7-6700K", 75},
+    {"i7-7700K", 80},
+    {"Core i9-9900K", 95},
+    {"Core i9-10900K", 100},
+
+    // AMD Ryzen CPUs
+    {"Ryzen 3 1200", 40},
+    {"Ryzen 5 1600", 60},
+    {"Ryzen 5 2600", 70},
+    {"Ryzen 7 3700X", 85},
+    {"Ryzen 7 5800X", 90},
+    {"Ryzen 9 5900X", 95},
+    {"Ryzen 9 7950X", 100}
+};
+
+ComponentePuntaje gpu_scores[] = {
+    // Nvidia GTX Series
+    {"GTX 660", 40},
+    {"GTX 750 Ti", 45},
+    {"GTX 1060", 65},
+    {"GTX 1070", 75},
+    {"GTX 1080", 85},
+    {"GTX 1660", 80},
+    {"GTX 1660 Ti", 85},
+
+    // Nvidia RTX Series
+    {"RTX 2060", 80},
+    {"RTX 2070", 85},
+    {"RTX 2080", 90},
+    {"RTX 2080 Ti", 95},
+    {"RTX 3060", 90},
+    {"RTX 3070", 95},
+    {"RTX 3080", 100},
+    {"RTX 3090", 105},
+    {"RTX 4090", 110},
+
+    // AMD Radeon RX Series
+    {"RX 570", 60},
+    {"RX 580", 65},
+    {"RX 590", 70},
+    {"RX 6600", 80},
+    {"RX 6700 XT", 85},
+    {"RX 6800", 90},
+    {"RX 6900 XT", 95}
+};
+
+*/
+
+
 // Función para obtener puntaje dado un modelo (busca substring)
 int obtener_puntaje(ComponentePuntaje *tabla, int n, const char *modelo_usuario) {
     for (int i = 0; i < n; i++) {
@@ -58,6 +113,17 @@ int obtener_puntaje(ComponentePuntaje *tabla, int n, const char *modelo_usuario)
     }
     return 0; // No encontrado o muy bajo
 }
+
+/*
+int obtener_puntaje(ComponentePuntaje *tabla, int n, const char *modelo_usuario) {
+    for (int i = 0; i < n; i++) {
+        if (strcmp(modelo_usuario, tabla[i].modelo) == 0) {
+            return tabla[i].puntaje;
+        }
+    }
+    return 0; // No encontrado
+}
+*/
 
 // Evaluar compatibilidad avanzada CPU+GPU+RAM
 int evaluar_compatibilidad(EspecificacionesPC *pc, Juego *juego) 
