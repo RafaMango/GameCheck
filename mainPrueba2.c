@@ -103,8 +103,9 @@ ComponentePuntaje gpu_scores[] = {
 
 */
 
-
 // Función para obtener puntaje dado un modelo (busca substring)
+// Esta función busca si el modelo de CPU o GPU del usuario está presente en la tabla de componentes.
+// Si lo encuentra, devuelve el puntaje asociado al modelo.
 int obtener_puntaje(ComponentePuntaje *tabla, int n, const char *modelo_usuario) {
     for (int i = 0; i < n; i++) {
         if (strstr(modelo_usuario, tabla[i].modelo) != NULL) {
@@ -126,6 +127,8 @@ int obtener_puntaje(ComponentePuntaje *tabla, int n, const char *modelo_usuario)
 */
 
 // Evaluar compatibilidad avanzada CPU+GPU+RAM
+// Evalúa si la PC del usuario cumple con los requisitos mínimos o recomendados de un juego,
+// basado en los puntajes de CPU y GPU y la cantidad de RAM.
 int evaluar_compatibilidad(EspecificacionesPC *pc, Juego *juego) 
 {
     int cpu_user_score = obtener_puntaje(cpu_scores, sizeof(cpu_scores)/sizeof(cpu_scores[0]), pc->cpu);
@@ -145,7 +148,11 @@ int evaluar_compatibilidad(EspecificacionesPC *pc, Juego *juego)
     else return 0; // No compatible
 }
 
+
 // Función para mostrar un juego con compatibilidad
+// Función para mostrar un juego con compatibilidad
+// Muestra los detalles de un juego (como los requisitos mínimos y recomendados)
+// y su compatibilidad con la PC del usuario (Recomendado, Mínimos, o No compatible).
 void mostrar_juego_compatibilidad(Juego *juego, int compat) 
 {
     printf("\n%s\n", juego->nombre);
@@ -158,6 +165,9 @@ void mostrar_juego_compatibilidad(Juego *juego, int compat)
 }
 
 // Función para cargar catálogo
+// Función para cargar catálogo
+// Lee el archivo CSV de videojuegos, extrae los datos y los carga en una lista y un mapa.
+// La lista contiene los juegos en orden secuencial y el mapa permite búsquedas rápidas por nombre.
 void cargarCatalogo(Map *mapa, List *lista) {
     FILE *archivo = fopen(ARCHIVO_CATALOGO, "r");
     if (!archivo) {
@@ -181,6 +191,9 @@ void cargarCatalogo(Map *mapa, List *lista) {
 }
 
 // Función para mostrar juegos compatibles ordenados
+// Función para mostrar juegos compatibles ordenados
+// Muestra los juegos que son compatibles con la PC del usuario, ordenados primero por los recomendados
+// y luego por los que cumplen los requisitos mínimos. Utiliza una lista auxiliar para almacenar los juegos.
 void verJuegosCompatibles(List *lista, EspecificacionesPC *pc) {
     typedef struct {
         Juego *juego;
@@ -225,6 +238,8 @@ void verJuegosCompatibles(List *lista, EspecificacionesPC *pc) {
 }
 
 // Función para ingresar especificaciones del usuario
+// Permite al usuario ingresar los detalles de su PC (CPU, GPU, RAM) para verificar compatibilidad
+// con los juegos del catálogo.
 void ingresarEspecificaciones(EspecificacionesPC *pc) {
     printf("Ingrese CPU (ej: i7-4790): ");
     fgets(pc->cpu, 50, stdin);
@@ -277,6 +292,7 @@ void menuPrincipal() {
             default:
                 printf("Opcion invalida.\n");
         }
+
     } while(opcion != 3);
 }
 
