@@ -87,7 +87,7 @@ void mostrar_juego_compatibilidad(Juego *juego, int compat)
     printf("  Recomendados: CPU: %s | GPU: %s | RAM: %dGB\n", juego->cpu_rec, juego->gpu_rec, juego->ram_rec);
     printf("  Compatibilidad: ");
     if (compat == 2) printf("Recomendado\n");
-    else if (compat == 1) printf("Cumple mínimos\n");
+    else if (compat == 1) printf("Cumple minimos\n");
     else printf("No compatible\n");
 }
 
@@ -95,7 +95,7 @@ void mostrar_juego_compatibilidad(Juego *juego, int compat)
 void cargarCatalogo(Map *mapa, List *lista) {
     FILE *archivo = fopen(ARCHIVO_CATALOGO, "r");
     if (!archivo) {
-        printf("No se pudo abrir el archivo de catálogo.\n");
+        printf("No se pudo abrir el archivo de catalogo.\n");
         return;
     }
     char **campos;
@@ -190,7 +190,7 @@ void menuPrincipal() {
         printf("1) Ingresar especificaciones PC\n");
         printf("2) Ver juegos compatibles\n");
         printf("3) Salir\n");
-        printf("Seleccione opción: ");
+        printf("Seleccione opcion: ");
         scanf("%d", &opcion);
         while(getchar() != '\n'); // limpiar buffer
 
@@ -209,7 +209,7 @@ void menuPrincipal() {
                 printf("Saliendo...\n");
                 break;
             default:
-                printf("Opción inválida.\n");
+                printf("Opcion invalida.\n");
         }
     } while(opcion != 3);
 }
