@@ -30,77 +30,67 @@ typedef struct {
 } ComponentePuntaje;
 
 ComponentePuntaje cpu_scores[] = {
-    {"i3-3210", 30},
+    // Procesadores muy básicos
+    {"Pentium 4", 10},
+    {"Pentium G4500", 20},
+    {"Pentium G4560", 25},
+    {"Core 2 Duo", 15},
+    
+    // Procesadores básicos
+    {"i3-2100", 30},
+    {"i3-3210", 35},
+    {"i3-3220", 35},
+    {"i3-3250", 35},
+    
+    // Procesadores medios
+    {"i5-2400", 40},
+    {"i5-2500", 45},
     {"i5-2500K", 50},
-    {"i7-4790", 70},
-    {"Ryzen 5 2600", 60},
-    {"Ryzen 7 3700X", 80},
-    {"Core i9", 90},
-    {"Ryzen 9", 90}
-};
-
-ComponentePuntaje gpu_scores[] = {
-    {"GTX 660", 40},
-    {"GTX 1060", 65},
-    {"RTX 3060", 80},
-    {"RTX 4090", 100},
-    {"RX 570", 60},
-    {"RX 6800", 85}
-};
-
-/*
-ComponentePuntaje cpu_scores[] = {
-    // Intel CPUs
-    {"i3-3210", 30},
-    {"i5-2500K", 50},
+    {"i5-3570K", 55},
+    
+    // Procesadores altos
+    {"i7-3770", 65},
     {"i7-4790", 70},
     {"i7-6700K", 75},
     {"i7-7700K", 80},
-    {"Core i9-9900K", 95},
-    {"Core i9-10900K", 100},
-
-    // AMD Ryzen CPUs
-    {"Ryzen 3 1200", 40},
-    {"Ryzen 5 1600", 60},
-    {"Ryzen 5 2600", 70},
-    {"Ryzen 7 3700X", 85},
-    {"Ryzen 7 5800X", 90},
-    {"Ryzen 9 5900X", 95},
-    {"Ryzen 9 7950X", 100}
+    {"i7-9700K", 90},
+    {"Core i9", 95},
+    {"Ryzen 9", 95}
 };
 
 ComponentePuntaje gpu_scores[] = {
-    // Nvidia GTX Series
+    // GPUs integradas y muy básicas
+    {"Intel HD Graphics", 5},
+    {"Intel HD 3000", 10},
+    {"Intel HD 530", 15},
+    {"Intel HD 610", 20},
+    
+    // GPUs básicas
+    {"GT 1030", 30},
+    {"GTX 460", 35},
     {"GTX 660", 40},
     {"GTX 750 Ti", 45},
-    {"GTX 1060", 65},
-    {"GTX 1070", 75},
+    
+    // GPUs medias
+    {"GTX 950", 50},
+    {"GTX 960", 55},
+    {"GTX 970", 60},
+    {"GTX 1050", 65},
+    {"GTX 1050 Ti", 70},
+    {"GTX 1060", 75},
+    
+    // GPUs altas
+    {"GTX 1070", 80},
     {"GTX 1080", 85},
-    {"GTX 1660", 80},
-    {"GTX 1660 Ti", 85},
-
-    // Nvidia RTX Series
-    {"RTX 2060", 80},
-    {"RTX 2070", 85},
-    {"RTX 2080", 90},
-    {"RTX 2080 Ti", 95},
-    {"RTX 3060", 90},
-    {"RTX 3070", 95},
-    {"RTX 3080", 100},
-    {"RTX 3090", 105},
-    {"RTX 4090", 110},
-
-    // AMD Radeon RX Series
-    {"RX 570", 60},
-    {"RX 580", 65},
-    {"RX 590", 70},
-    {"RX 6600", 80},
-    {"RX 6700 XT", 85},
-    {"RX 6800", 90},
-    {"RX 6900 XT", 95}
+    {"RTX 2060", 90},
+    {"RTX 2070", 95},
+    {"RTX 3060", 100},
+    {"RTX 3070", 105},
+    {"RTX 3080", 110},
+    {"RTX 3090", 115},
+    {"RTX 4090", 120}
 };
 
-*/
 
 // Función para obtener puntaje dado un modelo (busca substring)
 // Esta función busca si el modelo de CPU o GPU del usuario está presente en la tabla de componentes.
@@ -114,16 +104,6 @@ int obtener_puntaje(ComponentePuntaje *tabla, int n, const char *modelo_usuario)
     return 0; // No encontrado o muy bajo
 }
 
-/*
-int obtener_puntaje(ComponentePuntaje *tabla, int n, const char *modelo_usuario) {
-    for (int i = 0; i < n; i++) {
-        if (strcmp(modelo_usuario, tabla[i].modelo) == 0) {
-            return tabla[i].puntaje;
-        }
-    }
-    return 0; // No encontrado
-}
-*/
 
 // Evaluar compatibilidad avanzada CPU+GPU+RAM
 // Evalúa si la PC del usuario cumple con los requisitos mínimos o recomendados de un juego,
@@ -147,7 +127,29 @@ int evaluar_compatibilidad(EspecificacionesPC *pc, Juego *juego)
     else return 0; // No compatible
 }
 
+void buscarJuego(Map *mapa, EspecificacionesPC *pc, const char *username)
+{
+    return 0;
+}
 
+void mostrarCatalogo(List *lista, EspecificacionesPC *pc) {
+    return 0;
+}
+
+void verHistorial(const char *username)
+{
+    return 0;
+}
+
+void agregarJuego(Map *mapa, List *lista)
+{
+    return 0;
+}
+
+void guardarCatalogo(List *lista)
+{
+    return 0;
+}
 // Función para mostrar un juego con compatibilidad
 // Función para mostrar un juego con compatibilidad
 // Muestra los detalles de un juego (como los requisitos mínimos y recomendados)
@@ -193,6 +195,9 @@ void cargarCatalogo(Map *mapa, List *lista) {
 // Función para mostrar juegos compatibles ordenados
 // Muestra los juegos que son compatibles con la PC del usuario, ordenados primero por los recomendados
 // y luego por los que cumplen los requisitos mínimos. Utiliza una lista auxiliar para almacenar los juegos.
+/***
+CAMBIAR METODO DE ORDENAMIENDO A QSORT, YA QUE ESTA EN BUBBLE SORT Y ES MENOS EFICIENTE
+***/
 void verJuegosCompatibles(List *lista, EspecificacionesPC *pc) {
     typedef struct {
         Juego *juego;
@@ -253,7 +258,7 @@ void ingresarEspecificaciones(EspecificacionesPC *pc) {
 
 // Función para mostrar menú y controlar flujo
 void menuPrincipal() {
-    Map *mapa = sorted_map_create((int (*)(void*, void*))strcmp);
+    Map *mapa = sorted_map_create((int (*)(void*, void*))strcmp); // Crear mapa ordenado para juegos
     List *lista = list_create();
 
     cargarCatalogo(mapa, lista);
