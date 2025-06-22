@@ -4,7 +4,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-//hola
 #define ARCHIVO_CATALOGO "videojuegosDos.csv"
 #define MAX_USERNAME 50
 
@@ -267,33 +266,52 @@ void menuPrincipal() {
 
     int opcion;
     do {
-        printf("\n--- Menú ---\n");
-        printf("1) Ingresar especificaciones PC\n");
-        printf("2) Ver juegos compatibles\n");
-        printf("3) Salir\n");
+        printf("\n--- Menú Principal ---\n");
+        printf("1) Ver Catálogo\n");
+        printf("2) Ingresar especificaciones PC\n");
+        printf("3) Ver juegos compatibles\n");
+        printf("4) Buscar    juego\n");
+        printf("5) Ver historial de búsqueda\n");
+        printf("6) Agregar juego al catálogo\n");
+        printf("7) Salir\n");
         printf("Seleccione opcion: ");
         scanf("%d", &opcion);
         while(getchar() != '\n'); // limpiar buffer
 
         switch(opcion) {
             case 1:
-                ingresarEspecificaciones(&pc);
+                mostrarCatalogo(lista, &pc);
                 break;
             case 2:
+                ingresarEspecificaciones(&pc);
+                break;
+            case 3:
                 if (pc.ram == 0) {
                     printf("Primero ingrese sus especificaciones.\n");
                 } else {
                     verJuegosCompatibles(lista, &pc);
                 }
                 break;
-            case 3:
+            case 4:
+                buscarJuego(mapa, &pc, username);
+                break;
+            case 5:
+                verHistorial(username);
+                break;
+            case 6:
+                agregarJuego(mapa, lista);
+                break;
+            case 7:
+                guardarCatalogo(lista);
                 printf("Saliendo...\n");
                 break;
             default:
                 printf("Opcion invalida.\n");
         }
+    } while(opcion != 7);
 
-    } while(opcion != 3);
+    // Liberar memoria
+    // (Implementar función para liberar memoria de mapa y lista)
 }
 
 int main() {
