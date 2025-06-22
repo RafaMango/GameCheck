@@ -30,65 +30,86 @@ typedef struct {
 } ComponentePuntaje;
 
 ComponentePuntaje cpu_scores[] = {
-    // Procesadores muy básicos
+    //INTEL (Gama muy baja)
     {"Pentium 4", 10},
     {"Pentium G4500", 20},
     {"Pentium G4560", 25},
-    {"Core 2 Duo", 15},
+    {"Celeron G1820", 15},
+    {"Core 2 Duo", 18},
     
-    // Procesadores básicos
+    //INTEL Core i3/i5/i7/i9
     {"i3-2100", 30},
     {"i3-3210", 35},
     {"i3-3220", 35},
-    {"i3-3250", 35},
-    
-    // Procesadores medios
+    {"i3-4160", 38},
     {"i5-2400", 40},
     {"i5-2500", 45},
     {"i5-2500K", 50},
     {"i5-3570K", 55},
-    
-    // Procesadores altos
+    {"i5-4460", 58},
     {"i7-3770", 65},
     {"i7-4790", 70},
     {"i7-6700K", 75},
     {"i7-7700K", 80},
     {"i7-9700K", 90},
-    {"Core i9", 95},
-    {"Ryzen 9", 95}
+    {"Core i9-9900K", 95},
+    {"Core i9-10900K", 100},
+    
+    //AMD Ryzen
+    {"Ryzen 3 1200", 40},
+    {"Ryzen 5 1600", 60},
+    {"Ryzen 5 2600", 70},
+    {"Ryzen 7 3700X", 85},
+    {"Ryzen 7 5800X", 90},
+    {"Ryzen 9 5900X", 95},
+    {"Ryzen 9 7950X", 100}
 };
 
 ComponentePuntaje gpu_scores[] = {
-    // GPUs integradas y muy básicas
+    //GPUs INTEGRADAS (Muy bajas)
     {"Intel HD Graphics", 5},
     {"Intel HD 3000", 10},
     {"Intel HD 530", 15},
     {"Intel HD 610", 20},
+    {"Intel UHD 630", 25},
     
-    // GPUs básicas
+    //NVIDIA GTX/RTX
     {"GT 1030", 30},
     {"GTX 460", 35},
     {"GTX 660", 40},
     {"GTX 750 Ti", 45},
-    
-    // GPUs medias
     {"GTX 950", 50},
     {"GTX 960", 55},
     {"GTX 970", 60},
     {"GTX 1050", 65},
     {"GTX 1050 Ti", 70},
     {"GTX 1060", 75},
-    
-    // GPUs altas
     {"GTX 1070", 80},
     {"GTX 1080", 85},
+    {"GTX 1660", 80},
+    {"GTX 1660 Ti", 85},
     {"RTX 2060", 90},
     {"RTX 2070", 95},
+    {"RTX 2080", 100},
+    {"RTX 2080 Ti", 105},
     {"RTX 3060", 100},
     {"RTX 3070", 105},
     {"RTX 3080", 110},
     {"RTX 3090", 115},
-    {"RTX 4090", 120}
+    {"RTX 4090", 120},
+    
+    //AMD Radeon
+    {"RX 550", 40},
+    {"RX 560", 50},
+    {"RX 570", 60},
+    {"RX 580", 65},
+    {"RX 590", 70},
+    {"RX 5500 XT", 75},
+    {"RX 6600", 80},
+    {"RX 6700 XT", 85},
+    {"RX 6800", 90},
+    {"RX 6900 XT", 95},
+    {"RX 7900 XT", 110}
 };
 
 
