@@ -158,14 +158,69 @@ void mostrarCatalogo(List *lista, EspecificacionesPC *pc)
     return 0;
 }
 
-void verHistorial(const char *username)
-{
-    return 0;
+void verHistorial(const char *username) {
+    printf("\n=== Historial de búsquedas para %s ===\n", username);
+    FILE *historial = fopen("historial.txt", "r");
+    if (!historial) {
+        printf("No hay historial disponible.\n");
+        return;
+    }
+
+    char line[200];
+    int encontrado = 0;
+    while (fgets(line, sizeof(line), historial)) {
+        char *user = strtok(line, ";");
+        char *juego = strtok(NULL, "\n");
+        if (strcmp(user, username) == 0) {
+            printf("- %s\n", juego);
+            encontrado = 1;
+        }
+    }
+
+    if (!encontrado) {
+        printf("No hay búsquedas registradas para este usuario.\n");
+    }
+
+    fclose(historial);
 }
 
-void agregarJuego(Map *mapa, List *lista)
-{
-    return 0;
+void agregarJuego(Map *mapa, List *lista) {
+    Juego *nuevoJuego = malloc(sizeof(Juego));
+    
+    printf("\n=== Agregar nuevo juego ===\n");
+    printf("Nombre del juego: ");
+    fgets(nuevoJuego->nombre, 100, stdin);
+    nuevoJuego->nombre[strcspn(nuevoJuego->nombre, "\n")] = 0;
+    
+    printf("CPU mínimo: ");
+    fgets(nuevoJuego->cpu_min, 50, stdin);
+    nuevoJuego->cpu_min[strcspn(nuevoJuego->cpu_min, "\n")] = 0;
+    
+    printf("GPU mínimo: ");
+    fgets(nuevoJuego->gpu_min, 50, stdin);
+    nuevoJuego->gpu_min[strcspn(nuevoJuego->gpu_min, "\n")] = 0;
+    
+    printf("RAM mínimo (GB): ");
+    scanf("%d", &nuevoJuego->ram_min);
+    while(getchar() != '\n');
+    
+    printf("CPU recomendado: ");
+    fgets(nuevoJuego->cpu_rec, 50, stdin);
+    nuevoJuego->cpu_rec[strcspn(nuevoJuego->cpu_rec, "\n")] = 0;
+    
+    printf("GPU recomendado: ");
+    fgets(nuevoJuego->gpu_rec, 50, stdin);
+    nuevoJuego->gpu_rec[strcspn(nuevoJuego->gpu_rec, "\n")] = 0;
+    
+    printf("RAM recomendada (GB): ");
+    scanf("%d", &nuevoJuego->ram_rec);
+    while(getchar() != '\n');
+    
+    // Agregar a las estructuras
+    list_pushBack(lista, nuevoJuego);
+    map_insert(mapa, strdup(nuevoJuego->nombre), nuevoJuego);
+    
+    printf("Juego agregado exitosamente!\n");
 }
 // Función para guardar catálogo
 // Guarda el catálogo de videojuegos en un archivo CSV.
