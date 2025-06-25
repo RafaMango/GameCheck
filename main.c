@@ -150,14 +150,11 @@ int evaluar_compatibilidad(EspecificacionesPC *pc, Juego *juego)
 
 void buscarJuego(Map *mapa, EspecificacionesPC *pc, const char *username)
 {
-    char nombreJuego[100];
-    printf("Ingrese el nombre del juego a buscar: ");
-    fgets(nombreJuego, 100, stdin);
-    nombreJuego[strcspn(nombreJuego, "\n")] = 0; 
     return 0;
 }
 
-void mostrarCatalogo(List *lista, EspecificacionesPC *pc) {
+void mostrarCatalogo(List *lista, EspecificacionesPC *pc) 
+{
     return 0;
 }
 
@@ -170,10 +167,30 @@ void agregarJuego(Map *mapa, List *lista)
 {
     return 0;
 }
+// Función para guardar catálogo
+// Guarda el catálogo de videojuegos en un archivo CSV.
 
 void guardarCatalogo(List *lista)
 {
-    return 0;
+    FILE *archivo = fopen(ARCHIVO_CATALOGO, "w");
+    if (!archivo)
+    {
+        printf("Error al abriri el archivo para guardar. \n");
+        return;
+    }
+    for(Juego *juego = list_first(lista); juego != NULL; juego = list_next(lista))
+    {
+        fprintf(archivo, "%s,%s,%s,%d,%s,%s,%d\n", 
+                juego->nombre, 
+                juego->cpu_min, 
+                juego->gpu_min, 
+                juego->ram_min, 
+                juego->cpu_rec, 
+                juego->gpu_rec, 
+                juego->ram_rec);
+    }
+    fclose(archivo);
+    printf("Catalogo guardado exitosamente.\n");
 }
 // Función para mostrar un juego con compatibilidad
 // Función para mostrar un juego con compatibilidad
@@ -297,12 +314,12 @@ void menuPrincipal() {
     int opcion;
     do {
         printf("\n--- Menú Principal ---\n");
-        printf("1) Ver Catálogo\n");
+        printf("1) Ver Catalogo\n");
         printf("2) Ingresar especificaciones PC\n");
         printf("3) Ver juegos compatibles\n");
         printf("4) Buscar    juego\n");
-        printf("5) Ver historial de búsqueda\n");
-        printf("6) Agregar juego al catálogo\n");
+        printf("5) Ver historial de busqueda\n");
+        printf("6) Agregar juego al catalogo\n");
         printf("7) Salir\n");
         printf("Seleccione opcion: ");
         scanf("%d", &opcion);
