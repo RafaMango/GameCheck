@@ -437,7 +437,8 @@ void ingresarEspecificaciones(EspecificacionesPC *pc)
 // Función para mostrar menú y controlar flujo
 void menuPrincipal()
 {
-    system("chcp 850");
+    system("chcp 65001");
+    system("cls");
 
     Map *mapa = sorted_map_create((int (*)(void *, void *))strcmp); // Crear mapa ordenado para juegos
     List *lista = list_create();
