@@ -9,6 +9,7 @@ typedef struct {
   void *value;
 } MapPair;
 
+
 typedef struct Map Map;
 
 Map *map_create(int (*is_equal)(void *key1, void *key2)); // unsorted map
