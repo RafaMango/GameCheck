@@ -153,10 +153,17 @@ void buscarJuego(Map *mapa, EspecificacionesPC *pc, const char *username)
     return 0;
 }
 
-void mostrarCatalogo(List *lista, EspecificacionesPC *pc) 
-{
-    return 0;
+void mostrarCatalogo(List *lista, EspecificacionesPC *pc) {
+    printf("\n=== Catálogo Completo ===\n");
+    for (Juego *juego = list_first(lista); juego != NULL; juego = list_next(lista)) {
+        int compatibilidad = 0;
+        if (pc->ram > 0) { // Si se han ingresado especificaciones
+            compatibilidad = evaluar_compatibilidad(pc, juego);
+        }
+        mostrar_juego_compatibilidad(juego, compatibilidad);
+    }
 }
+
 
 void verHistorial(const char *username) {
     printf("\n=== Historial de busquedas para %s ===\n", username);
