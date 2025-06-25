@@ -148,13 +148,31 @@ int evaluar_compatibilidad(EspecificacionesPC *pc, Juego *juego)
     else return 0; // No compatible
 }
 
-void buscarJuego(Map *mapa, EspecificacionesPC *pc, const char *username)
-{
+void buscarJuego(Map *mapa, EspecificacionesPC *pc, const char *username) {
     char nombreJuego[100];
     printf("Ingrese el nombre del juego a buscar: ");
     fgets(nombreJuego, 100, stdin);
     nombreJuego[strcspn(nombreJuego, "\n")] = 0;
-    char nombreJuego[100];
+
+    Juego *juego = map_get(mapa, nombreJuego);
+    if (juego == NULL) {
+        printf("El juego '%s' no se encuentra en el catálogo.\n", nombreJuego);
+        return;
+    }
+
+    int compatibilidad = 0;
+    if (pc->ram > 0) { // Si se han ingresado especificaciones
+        compatibilidad = evaluar_compatibilidad(pc, juego);
+    }
+
+    mostrar_juego_compatibilidad(juego, compatibilidad);
+
+    // Guardar en el historial (implementación simplificada)
+    FILE *historial = fopen("historial.txt", "a");
+    if (historial) {
+        fprintf(historial, "%s;%s\n", username, nombreJuego);
+        fclose(historial);
+    }
 }
 
 void mostrarCatalogo(List *lista, EspecificacionesPC *pc) {
