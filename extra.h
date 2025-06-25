@@ -5,7 +5,26 @@
 #include <stdlib.h>
 #include <string.h>
 #include "list.h"
+#include "map.h"
 
+typedef struct {
+    char nombre[100];
+    char cpu_min[50];
+    char gpu_min[50];
+    int ram_min;
+    char cpu_rec[50];
+    char gpu_rec[50];
+    int ram_rec;
+} Juego;
+
+typedef struct {
+    char cpu[50];
+    char gpu[50];
+    int ram;
+} EspecificacionesPC;
+
+int evaluar_compatibilidad(EspecificacionesPC *pc, Juego *juego);
+void mostrar_juego_compatibilidad(Juego *juego, int compat);
 /**
  * Función para leer y parsear una línea de un archivo CSV en campos
  * individuales.
