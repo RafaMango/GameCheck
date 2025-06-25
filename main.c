@@ -174,6 +174,46 @@ void verHistorial(const char *username)
 
 void agregarJuego(Map *mapa, List *lista)
 {
+    Juego *nuevoJuego = malloc(sizeof(Juego));
+
+    printf("\n=== Agregar nuevo juego ===\n");
+    printf("Nombre del Juego: ");
+    fgets(nuevoJuego->nombre, 100, stdin);
+    nuevoJuego->nombre[strcspn(nuevoJuego->nombre, "\n")] = 0;
+
+    printf("CPU minimo: ");
+    fgets(nuevoJuego->cpu_min, 50, stdin);
+    nuevoJuego->cpu_min[strcspn(nuevoJuego->cpu_min, "\n")] = 0;
+
+    printf("GPU minimo: ");
+    fgets(nuevoJuego->gpu_min, 50, stdin);
+    nuevoJuego->gpu_min[strcspn(nuevoJuego->gpu_min, "\n")] = 0;
+
+    printf("RAM minimo (GB): ");
+    scanf("%d", &nuevoJuego->ram_min);
+    while (getchar() != "\n")
+    {
+    }
+
+    printf("CPU recomendado: ");
+    fgets(nuevoJuego->cpu_rec, 50, stdin);
+    nuevoJuego->cpu_rec[strcspn(nuevoJuego->cpu_rec, "\n")] = 0;
+
+    printf("GPU recomendado: ");
+    fgets(nuevoJuego->gpu_rec, 50, stdin);
+    nuevoJuego->gpu_rec[strcspn(nuevoJuego->gpu_rec, "\n")] = 0;
+
+    printf("RAM recomendada (GB): ");
+    scanf("%d", &nuevoJuego->ram_rec);
+    while (getchar() != "\n")
+    {
+    }
+
+    list_pushBack(lista, nuevoJuego);
+    map_insert(mapa, strdup(nuevoJuego->nombre), nuevoJuego);
+
+    printf("Juego agregado exitosamente\n");
+
     return 0;
 }
 
