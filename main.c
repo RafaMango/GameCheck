@@ -150,6 +150,10 @@ int evaluar_compatibilidad(EspecificacionesPC *pc, Juego *juego)
 
 void buscarJuego(Map *mapa, EspecificacionesPC *pc, const char *username)
 {
+    char nombreJuego[100];
+    printf("Ingrese el nombre del juego a buscar: ");
+    fgets(nombreJuego, 100, stdin);
+    nombreJuego[strcspn(nombreJuego, "\n")] = 0; 
     return 0;
 }
 
