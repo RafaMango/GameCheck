@@ -154,7 +154,6 @@ void buscarJuego(Map *mapa, EspecificacionesPC *pc, const char *username)
     printf("Ingrese el nombre del juego a buscar: ");
     fgets(nombreJuego, 100, stdin);
     nombreJuego[strcspn(nombreJuego, "\n")] = 0; 
-    return 0;
 }
 
 void mostrarCatalogo(List *lista, EspecificacionesPC *pc) {
