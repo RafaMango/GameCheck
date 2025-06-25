@@ -27,6 +27,14 @@ Map *sorted_map_create(int (*lower_than)(void *key1, void *key2)) {
   return newMap;
 }
 
+void* map_get(Map* map, void* key) {
+    MapPair* pair = map_search(map, key);
+    if (pair != NULL) {
+        return pair->value;
+    }
+    return NULL;
+}
+
 Map *map_create(int (*is_equal)(void *key1, void *key2)) {
   Map *newMap = (Map *)malloc(sizeof(Map));
   newMap->lower_than = NULL;

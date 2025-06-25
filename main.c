@@ -129,23 +129,42 @@ int obtener_puntaje(ComponentePuntaje *tabla, int n, const char *modelo_usuario)
 // Evaluar compatibilidad avanzada CPU+GPU+RAM
 // Evalúa si la PC del usuario cumple con los requisitos mínimos o recomendados de un juego,
 // basado en los puntajes de CPU y GPU y la cantidad de RAM.
-int evaluar_compatibilidad(EspecificacionesPC *pc, Juego *juego) 
+int evaluar_compatibilidad(EspecificacionesPC *pc, Juego *juego)
 {
-    int cpu_user_score = obtener_puntaje(cpu_scores, sizeof(cpu_scores)/sizeof(cpu_scores[0]), pc->cpu);
-    int gpu_user_score = obtener_puntaje(gpu_scores, sizeof(gpu_scores)/sizeof(gpu_scores[0]), pc->gpu);
+    // 1. Obtener los puntajes para los componentes del PC del usuario.
+    int cpu_user_score = obtener_puntaje(cpu_scores, sizeof(cpu_scores) / sizeof(cpu_scores[0]), pc->cpu);
+    int gpu_user_score = obtener_puntaje(gpu_scores, sizeof(gpu_scores) / sizeof(gpu_scores[0]), pc->gpu);
 
-    int cpu_min_score = obtener_puntaje(cpu_scores, sizeof(cpu_scores)/sizeof(cpu_scores[0]), juego->cpu_min);
-    int gpu_min_score = obtener_puntaje(gpu_scores, sizeof(gpu_scores)/sizeof(gpu_scores[0]), juego->gpu_min);
+    // 2. Obtener los puntajes para los requisitos MÍNIMOS del juego.
+    int cpu_min_score = obtener_puntaje(cpu_scores, sizeof(cpu_scores) / sizeof(cpu_scores[0]), juego->cpu_min);
+    int gpu_min_score = obtener_puntaje(gpu_scores, sizeof(gpu_scores) / sizeof(gpu_scores[0]), juego->gpu_min);
 
-    int cpu_rec_score = obtener_puntaje(cpu_scores, sizeof(cpu_scores)/sizeof(cpu_scores[0]), juego->cpu_rec);
-    int gpu_rec_score = obtener_puntaje(gpu_scores, sizeof(gpu_scores)/sizeof(gpu_scores[0]), juego->gpu_rec);
+    // 3. Obtener los puntajes para los requisitos RECOMENDADOS del juego.
+    int cpu_rec_score = obtener_puntaje(cpu_scores, sizeof(cpu_scores) / sizeof(cpu_scores[0]), juego->cpu_rec);
+    int gpu_rec_score = obtener_puntaje(gpu_scores, sizeof(gpu_scores) / sizeof(gpu_scores[0]), juego->gpu_rec);
 
-    int cumple_min = (cpu_user_score >= cpu_min_score) && (gpu_user_score >= gpu_min_score) && (pc->ram >= juego->ram_min);
-    int cumple_rec = (cpu_user_score >= cpu_rec_score) && (gpu_user_score >= gpu_rec_score) && (pc->ram >= juego->ram_rec);
+    // 4. Evaluar si se cumplen los requisitos RECOMENDADOS.
+    // Para ello, el PC debe igualar o superar CADA UNO de los requisitos: CPU, GPU y RAM.
+    int cumple_recomendados = (cpu_user_score >= cpu_rec_score) &&
+                              (gpu_user_score >= gpu_rec_score) &&
+                              (pc->ram >= juego->ram_rec);
 
-    if (cumple_rec) return 2; // Recomendado
-    else if (cumple_min) return 1; // Minimos
-    else return 0; // No compatible
+    if (cumple_recomendados) {
+        return 2; // Nivel de compatibilidad: Recomendado
+    }
+
+    // 5. Si no cumple los recomendados, evaluar si se cumplen los requisitos MÍNIMOS.
+    // El PC debe igualar o superar CADA UNO de los requisitos: CPU, GPU y RAM.
+    int cumple_minimos = (cpu_user_score >= cpu_min_score) &&
+                         (gpu_user_score >= gpu_min_score) &&
+                         (pc->ram >= juego->ram_min);
+
+    if (cumple_minimos) {
+        return 1; // Nivel de compatibilidad: Mínimos
+    }
+
+    // 6. Si no cumple ni los mínimos, no es compatible.
+    return 0; // Nivel de compatibilidad: No compatible
 }
 
 void buscarJuego(Map *mapa, EspecificacionesPC *pc, const char *username) {
@@ -154,7 +173,7 @@ void buscarJuego(Map *mapa, EspecificacionesPC *pc, const char *username) {
     fgets(nombreJuego, 100, stdin);
     nombreJuego[strcspn(nombreJuego, "\n")] = 0;
 
-    Juego *juego = map_get(mapa, nombreJuego);
+    Juego *juego = map_search(mapa, nombreJuego);
     if (juego == NULL) {
         printf("El juego '%s' no se encuentra en el catálogo.\n", nombreJuego);
         return;

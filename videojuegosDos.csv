@@ -42,7 +42,7 @@ Undertale,Pentium 4,Intel HD Graphics,2,Core 2 Duo,Intel HD 3000,4
 Cuphead,Pentium G4500,Intel HD Graphics 530,3,Core i3-7100,GT 1030,4
 Starbound,Pentium 4,Intel HD Graphics,2,Core 2 Duo,Intel HD 3000,4
 FTL: Faster Than Light,Pentium 4,Intel HD Graphics,1,Core 2 Duo,Intel HD 3000,2
-Papers, Please,Pentium 4,Intel HD Graphics,1,Core 2 Duo,Intel HD 3000,2
+Papers, Please,Pentium 4,0,1,Core 2 Duo,0
 Hotline Miami,Pentium 4,Intel HD Graphics,1,Core 2 Duo,Intel HD 3000,2
 Limbo,Pentium 4,Intel HD Graphics,1,Core 2 Duo,Intel HD 3000,2
 Braid,Pentium 4,Intel HD Graphics,1,Core 2 Duo,Intel HD 3000,2
@@ -263,7 +263,7 @@ UnMetal,i3-3220,GTX 660,4,i5-3470,GTX 1060,8
 Unsighted,i3-3220,GTX 660,4,i5-3470,GTX 1060,8
 V Rising,i5-3470,GTX 960,8,i7-4790,GTX 1060,16
 Vampire: The Masquerade - Swansong,i5-3470,GTX 970,8,i7-4790,GTX 1060,16
-Warhammer 40,000: Chaos Gate - Daemonhunters,i5-3470,GTX 960,8,i7-4790,GTX 1060,16
+Warhammer 40,000: Chaos Gate - Daemonhunters,i5-3470,0,8,i7-4790,0
 Weird West,i5-2500K,GTX 660,6,i7-3770,GTX 970,8
 Windjammers 2,i3-3220,GTX 660,4,i5-3470,GTX 1060,8
 WRC 10,i5-3470,GTX 960,8,i7-4790,GTX 1060,16
@@ -387,7 +387,7 @@ Trail Out,i5-3470,GTX 960,8,i7-4790,GTX 1060,16
 Two Point Campus,i5-3470,GTX 660,4,i7-4790,GTX 1060,8
 Vampire Survivors,Pentium 4,Intel HD Graphics,1,Core 2 Duo,Intel HD 3000,2
 Voidtrain,i5-3470,GTX 970,8,i7-4790,GTX 1060,16
-Warhammer 40,000: Shootas, Blood & Teef,i3-3220,GTX 660,4,i5-3470,GTX 1060,8
+Warhammer 40,000: Shootas, Blood & Teef,0,GTX 660,4,0
 Wayward Strand,i3-3220,GTX 660,4,i5-3470,GTX 1060,8
 We Were Here Forever,i5-3470,GTX 970,8,i7-4790,GTX 1060,16
 Wizard with a Gun,i3-3220,GTX 660,4,i5-3470,GTX 1060,8
@@ -509,7 +509,7 @@ Total War: Three Kingdoms,i5-3470,GTX 660,6,i7-4790,GTX 1060,8
 Tunic,i3-3220,GTX 660,4,i5-3470,GTX 1060,8
 Valheim,i5-3470,GTX 660,8,i7-4790,GTX 1060,16
 Vampire Survivors,i3-3220,GTX 660,4,i5-3470,GTX 1060,8
-Warhammer 40,000: Boltgun,i5-3470,GTX 970,8,i7-4790,GTX 1060,16
+Warhammer 40,000: Boltgun,i5-3470,0,8,i7-4790,0
 Wildermyth,i3-3220,GTX 660,4,i5-3470,GTX 1060,8
 WrestleQuest,i3-3220,GTX 660,4,i5-3470,GTX 1060,8
 XCOM: Chimera Squad,i5-3470,GTX 660,4,i7-4790,GTX 1060,8
