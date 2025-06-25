@@ -174,52 +174,30 @@ void verHistorial(const char *username)
 
 void agregarJuego(Map *mapa, List *lista)
 {
-    Juego *nuevoJuego = malloc(sizeof(Juego));
-
-    printf("\n=== Agregar nuevo juego ===\n");
-    printf("Nombre del Juego: ");
-    fgets(nuevoJuego->nombre, 100, stdin);
-    nuevoJuego->nombre[strcspn(nuevoJuego->nombre, "\n")] = 0;
-
-    printf("CPU minimo: ");
-    fgets(nuevoJuego->cpu_min, 50, stdin);
-    nuevoJuego->cpu_min[strcspn(nuevoJuego->cpu_min, "\n")] = 0;
-
-    printf("GPU minimo: ");
-    fgets(nuevoJuego->gpu_min, 50, stdin);
-    nuevoJuego->gpu_min[strcspn(nuevoJuego->gpu_min, "\n")] = 0;
-
-    printf("RAM minimo (GB): ");
-    scanf("%d", &nuevoJuego->ram_min);
-    while (getchar() != "\n")
-    {
-    }
-
-    printf("CPU recomendado: ");
-    fgets(nuevoJuego->cpu_rec, 50, stdin);
-    nuevoJuego->cpu_rec[strcspn(nuevoJuego->cpu_rec, "\n")] = 0;
-
-    printf("GPU recomendado: ");
-    fgets(nuevoJuego->gpu_rec, 50, stdin);
-    nuevoJuego->gpu_rec[strcspn(nuevoJuego->gpu_rec, "\n")] = 0;
-
-    printf("RAM recomendada (GB): ");
-    scanf("%d", &nuevoJuego->ram_rec);
-    while (getchar() != "\n")
-    {
-    }
-
-    list_pushBack(lista, nuevoJuego);
-    map_insert(mapa, strdup(nuevoJuego->nombre), nuevoJuego);
-
-    printf("Juego agregado exitosamente\n");
-
     return 0;
 }
 
 void guardarCatalogo(List *lista)
 {
-    return 0;
+    FILE *archivo = fopen(ARCHIVO_CATALOGO, "w");
+    if (!archivo)
+    {
+        printf("Error al abriri el archivo para guardar. \n");
+        return;
+    }
+    for (Juego *juego = list_first(lista); juego != NULL; juego = list_next(lista))
+    {
+        fprintf(archivo, "%s,%s,%s,%d,%s,%s,%d\n",
+                juego->nombre,
+                juego->cpu_min,
+                juego->gpu_min,
+                juego->ram_min,
+                juego->cpu_rec,
+                juego->gpu_rec,
+                juego->ram_rec);
+    }
+    fclose(archivo);
+    printf("Catalogo guardado exitosamente.\n");
 }
 // Función para mostrar un juego con compatibilidad
 // Función para mostrar un juego con compatibilidad
@@ -363,12 +341,12 @@ void menuPrincipal()
     do
     {
         printf("\n--- Menú Principal ---\n");
-        printf("1) Ver Catálogo\n");
+        printf("1) Ver Catalogo\n");
         printf("2) Ingresar especificaciones PC\n");
         printf("3) Ver juegos compatibles\n");
         printf("4) Buscar    juego\n");
-        printf("5) Ver historial de búsqueda\n");
-        printf("6) Agregar juego al catálogo\n");
+        printf("5) Ver historial de busqueda\n");
+        printf("6) Agregar juego al catalogo\n");
         printf("7) Salir\n");
         printf("Seleccione opcion: ");
         scanf("%d", &opcion);
