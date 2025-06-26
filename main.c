@@ -254,6 +254,8 @@ ComponentePuntaje gpu_scores[] = {
 // Función para obtener puntaje dado un modelo (busca substring)
 // Esta función busca si el modelo de CPU o GPU del usuario está presente en la tabla de componentes.
 // Si lo encuentra, devuelve el puntaje asociado al modelo.
+// n es el número de elementos en la tabla.
+// Si no encuentra el modelo, devuelve 0 (lo que indica que no es compatible
 int obtener_puntaje(ComponentePuntaje *tabla, int n, const char *modelo_usuario)
 {
     for (int i = 0; i < n; i++)
@@ -461,7 +463,7 @@ void mostrar_juego_compatibilidad(Juego *juego, int compat)
     printf("  Recomendados: CPU: %s | GPU: %s | RAM: %dGB\n", juego->cpu_rec, juego->gpu_rec, juego->ram_rec);
     printf("  Compatibilidad: ");
     if (compat == 2)
-        printf("Recomendado\n");
+        printf("Cumple recomendados\n");
     else if (compat == 1)
         printf("Cumple minimos\n");
     else
