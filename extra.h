@@ -23,6 +23,17 @@ typedef struct {
     int ram;
 } EspecificacionesPC;
 
+// estructuras de pilas, para historial (Amanda)
+typedef struct NodoHistorial {
+    char juego[100];
+    struct NodoHistorial *siguiente; 
+} NodoHistorial; 
+
+typedef struct {
+    NodoHistorial *tope;
+} PilaHistorial;
+
+
 int evaluar_compatibilidad(EspecificacionesPC *pc, Juego *juego);
 void mostrar_juego_compatibilidad(Juego *juego, int compat);
 /**
