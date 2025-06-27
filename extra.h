@@ -6,7 +6,8 @@
 #include <string.h>
 #include "list.h"
 #include "map.h"
-
+#define MAX_USERNAME 50
+#define MAX_HISTORIAL 100
 typedef struct {
     char nombre[100];
     char cpu_min[50];
@@ -23,15 +24,10 @@ typedef struct {
     int ram;
 } EspecificacionesPC;
 
-// estructuras de pilas, para historial (Amanda)
-typedef struct NodoHistorial {
-    char juego[100];
-    struct NodoHistorial *siguiente; 
-} NodoHistorial; 
-
 typedef struct {
-    NodoHistorial *tope;
-} PilaHistorial;
+    char username[MAX_USERNAME];
+    char juego[100];
+} RegistroHistorial;
 
 
 int evaluar_compatibilidad(EspecificacionesPC *pc, Juego *juego);
@@ -75,7 +71,7 @@ List *split_string(const char *str, const char *delim);
 void limpiarPantalla();
 
 void presioneTeclaParaContinuar();
-
+/**
 // Funciones para pila de historial
 PilaHistorial *crearPila();
 
@@ -84,6 +80,6 @@ void apilar(PilaHistorial *pila, const char *Nombrejuego);
 void mostrarPila(PilaHistorial *pila);
 
 void liberarPila(PilaHistorial *pila);
-
+**/
 
 #endif

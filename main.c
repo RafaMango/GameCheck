@@ -5,7 +5,9 @@
 #include <stdlib.h>
 #include <string.h>
 #define ARCHIVO_CATALOGO "videojuegosDos.csv"
+#define ARCHIVO_HISTORIAL "historial.csv"
 #define MAX_USERNAME 50
+#define MAX_HISTORIAL 100
 /*
 typedef struct {
     char nombre[100];
@@ -22,6 +24,11 @@ typedef struct {
     char gpu[50];
     int ram;
 } EspecificacionesPC;
+
+typedef struct {
+    char username[MAX_USERNAME];
+    char juego[100];
+} RegistroHistorial;
 */
 // Tablas de puntajes aproximados para CPUs y GPUs
 typedef struct
@@ -311,36 +318,82 @@ int evaluar_compatibilidad(EspecificacionesPC *pc, Juego *juego)
     return 0; // Nivel de compatibilidad: No compatible
 }
 
-void buscarJuego(Map *mapa, EspecificacionesPC *pc, const char *username, PilaHistorial *historialPila)
+void agregarAlHistorial(const char *username, const char *juego) 
 {
+    // Leer todo el historial existente
+    
+    RegistroHistorial *nuevoRegistro = malloc(sizeof(RegistroHistorial));
+    strncpy(nuevoRegistro->username, username, MAX_USERNAME);
+    strncpy(nuevoRegistro->juego, juego, 100);
+    List *historial = list_create();
+    FILE *archivo = fopen(ARCHIVO_HISTORIAL, "r");
+    
+    if (archivo)
+    {   char linea[200];
+        while(fgets(linea, sizeof(linea), archivo))
+        {
+            linea[strcspn(linea, "\n")] = 0; // Eliminar salto de línea
+            char *user = strtok(linea, ";");
+            char *game = strtok(NULL, ";");
+            
+            if (user && game) 
+            {
+                RegistroHistorial *reg = malloc(sizeof(RegistroHistorial));
+                strncpy(reg->username, user, MAX_USERNAME);
+                strncpy(reg->juego, game, 100);
+                list_pushBack(historial, reg);
+            }
+        }
+        fclose(archivo);
+    }
+
+    // Agregar el nuevo registro al principio (FIFO)
+    list_pushFront(historial, nuevoRegistro);
+    
+    // Mantener solo los últimos MAX_HISTORIAL registros
+    while (list_size(historial) > MAX_HISTORIAL)
+    {
+        free(list_popBack(historial));
+    }
+    
+    // Escribir el historial actualizado
+    archivo = fopen(ARCHIVO_HISTORIAL, "w");
+    if (!archivo) 
+    {
+        list_clean(historial);
+        free(historial);
+        return;
+    }
+    
+    for (RegistroHistorial *reg = list_first(historial); reg != NULL; reg = list_next(historial)) 
+    {
+        fprintf(archivo, "%s;%s\n", reg->username, reg->juego);
+    }
+    
+    fclose(archivo);
+    list_clean(historial);
+    free(historial);
+}
+
+void buscarJuego(Map *mapa, EspecificacionesPC *pc, const char *username) {
     char nombreJuego[100];
     printf("Ingrese el nombre del juego a buscar: ");
-    fgets(nombreJuego, 100, stdin);
+    fgets(nombreJuego, sizeof(nombreJuego), stdin);
     nombreJuego[strcspn(nombreJuego, "\n")] = 0;
 
     Juego *juego = map_get(mapa, nombreJuego);
-    if (juego == NULL)
-    {
+    if (juego == NULL) {
         printf("El juego '%s' no se encuentra en el catálogo.\n", nombreJuego);
         return;
     }
 
     int compatibilidad = 0;
-    if (pc->ram > 0)
-    { // Si se han ingresado especificaciones
+    if (pc->ram > 0) {
         compatibilidad = evaluar_compatibilidad(pc, juego);
     }
 
     mostrar_juego_compatibilidad(juego, compatibilidad);
-
-    // Guardar en el historial (implementación simplificada)
-    FILE *historial = fopen("historial.csv", "a");
-    if (historial)
-    {
-        fprintf(historial, "%s;%s\n", username, nombreJuego);
-        fclose(historial);
-    }
-    apilar(historialPila, nombreJuego);
+    agregarAlHistorial(username, nombreJuego);
 }
 
 void mostrarCatalogo(List *lista, EspecificacionesPC *pc)
@@ -357,9 +410,47 @@ void mostrarCatalogo(List *lista, EspecificacionesPC *pc)
     }
 }
 
-void verHistorial(PilaHistorial *historialPila, const char *username){
-    printf("\n=== Historial de busquedas para %s ===\n", username);
-    mostrarPila(historialPila);
+void verHistorial(const char *username) {
+    printf("\n=== Historial de búsquedas para %s ===\n", username);
+    
+    List *historial = list_create();
+    FILE *archivo = fopen(ARCHIVO_HISTORIAL, "r");
+    if (!archivo) {
+        printf("No hay historial disponible.\n");
+        return;
+    }
+    
+    // Leer el archivo y cargar en lista
+    char linea[200];
+    while (fgets(linea, sizeof(linea), archivo)) {
+        linea[strcspn(linea, "\n")] = 0;
+        char *user = strtok(linea, ";");
+        char *game = strtok(NULL, ";");
+        
+        if (user && game) {
+            RegistroHistorial *reg = malloc(sizeof(RegistroHistorial));
+            strncpy(reg->username, user, MAX_USERNAME);
+            strncpy(reg->juego, game, 100);
+            list_pushBack(historial, reg);
+        }
+    }
+    fclose(archivo);
+    
+    // Mostrar solo los del usuario
+    int encontrado = 0;
+    for (RegistroHistorial *reg = list_first(historial); reg != NULL; reg = list_next(historial)) {
+        if (strcmp(reg->username, username) == 0) {
+            printf("- %s\n", reg->juego);
+            encontrado = 1;
+        }
+    }
+    
+    if (!encontrado) {
+        printf("No hay búsquedas registradas para este usuario.\n");
+    }
+    
+    list_clean(historial);
+    free(historial);
 }
 
 void agregarJuego(Map *mapa, List *lista)
@@ -568,7 +659,7 @@ void menuPrincipal()
     fgets(username, MAX_USERNAME, stdin);
     username[strcspn(username, "\n")] = 0;
 
-    PilaHistorial *historialPila = cargarHistorial(username);
+    //PilaHistorial *historialPila = cargarHistorial(username);
 
     int opcion;
     do
@@ -605,17 +696,18 @@ void menuPrincipal()
             }
             break;
         case 4:
-            buscarJuego(mapa, &pc, username, historialPila);
+            buscarJuego(mapa, &pc, username);
             break;
         case 5:
-            verHistorial(historialPila, username);
+            verHistorial(username);
             break;
         case 6:
             agregarJuego(mapa, lista);
             break;
         case 7:
             guardarCatalogo(lista);
-            liberarPila(historialPila);
+            
+            //liberarPila(historialPila);
             printf("Saliendo...\n");
             break;
         default:

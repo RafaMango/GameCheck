@@ -103,7 +103,7 @@ void presioneTeclaParaContinuar()
   while (getchar() != '\n'); // limpia buffer
       getchar(); // espera Enter
 }
-
+/****
 //funciones de pila para historial (Amanda)
 pilaHistorial *crearPila(){
     PilaHistorial *pila = malloc(sizeof(pilaHistorial));
@@ -142,6 +142,7 @@ void liberarPila(PilaHistorial *pila){
   free(pila);
 }
 
+
 void cargarHistorialPila(PilaHistorial *pila, const char *username){
   FILE* archivo = fopen("historial.csv", "r");
   if (!archivo) {
@@ -160,3 +161,4 @@ void cargarHistorialPila(PilaHistorial *pila, const char *username){
   }
   fclose(archivo);
 }
+****/
