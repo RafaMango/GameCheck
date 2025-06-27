@@ -20,7 +20,7 @@ void map_insert(Map *map, void *key, void *value);
 void* map_get(Map* map, void* key);
 MapPair *map_remove(Map *map, void *key);
 
-MapPair *map_search(Map *map, void *key);
+//MapPair *map_search(Map *map, void *key);
 
 MapPair *map_first(Map *map);
 
