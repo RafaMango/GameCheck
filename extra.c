@@ -106,12 +106,12 @@ void presioneTeclaParaContinuar()
 
 //funciones de pila para historial (Amanda)
 pilaHistorial *crearPila(){
-      PilaHistorial *pila = malloc(sizeof(pilaHistorial));
+    PilaHistorial *pila = malloc(sizeof(pilaHistorial));
     pila->tope = NULL;
     return pila;
 } // le reserva memoria a la pila
 
-void apilar(PilaHistorial *pila, const char *Juego) { //para nueva busqueda, crea un nuevo nodo
+void apilar(PilaHistorial *pila, const char *juego) { //para nueva busqueda, crea un nuevo nodo
   NodoHistorial *nuevo = malloc(sizeof(NodoHistorial));
   strncpy(nuevo->juego, juego, 99); //le copia la información 
   nuevo->juego[99] = '\0';
@@ -140,4 +140,23 @@ void liberarPila(PilaHistorial *pila){
     free(temp);
   }
   free(pila);
+}
+
+void cargarHistorialPila(PilaHistorial *pila, const char *username){
+  FILE* archivo = fopen("historial.csv", "r");
+  if (!archivo) {
+    printf("Error al abrir archivo");
+    return;
+  }
+
+  char linea[200];
+  while (fgets(linea, sizeof(linea), archivo)) {
+    char* user = strtok(linea, ";");
+    char* juego = strtok(NULL, "\n");
+
+    if (strcmp(user, username) == 0 && juego) {
+      apilar(pila, juego);
+    }
+  }
+  fclose(archivo);
 }
