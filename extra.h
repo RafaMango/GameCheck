@@ -79,7 +79,7 @@ void presioneTeclaParaContinuar();
 // Funciones para pila de historial
 PilaHistorial *crearPila();
 
-void apilar(PilaHistorial *pila, const char *juego);
+void apilar(PilaHistorial *pila, const char *Nombrejuego);
 
 void mostrarPila(PilaHistorial *pila);
 

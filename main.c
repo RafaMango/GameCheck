@@ -311,7 +311,7 @@ int evaluar_compatibilidad(EspecificacionesPC *pc, Juego *juego)
     return 0; // Nivel de compatibilidad: No compatible
 }
 
-void buscarJuego(Map *mapa, EspecificacionesPC *pc, const char *username)
+void buscarJuego(Map *mapa, EspecificacionesPC *pc, const char *username, PilaHistorial *historialPila)
 {
     char nombreJuego[100];
     printf("Ingrese el nombre del juego a buscar: ");
@@ -340,6 +340,7 @@ void buscarJuego(Map *mapa, EspecificacionesPC *pc, const char *username)
         fprintf(historial, "%s;%s\n", username, nombreJuego);
         fclose(historial);
     }
+    apilar(historialPila, nombreJuego);
 }
 
 void mostrarCatalogo(List *lista, EspecificacionesPC *pc)
@@ -356,35 +357,9 @@ void mostrarCatalogo(List *lista, EspecificacionesPC *pc)
     }
 }
 
-void verHistorial(const char *username)
-{
+void verHistorial(PilaHistorial *historialPila, const char *username){
     printf("\n=== Historial de busquedas para %s ===\n", username);
-    FILE *historial = fopen("historial.csv", "r");
-    if (!historial)
-    {
-        printf("No hay historial disponible.\n");
-        return;
-    }
-
-    char line[200];
-    int encontrado = 0;
-    while (fgets(line, sizeof(line), historial))
-    {
-        char *user = strtok(line, ";");
-        char *juego = strtok(NULL, "\n");
-        if (strcmp(user, username) == 0)
-        {
-            printf("- %s\n", juego);
-            encontrado = 1;
-        }
-    }
-
-    if (!encontrado)
-    {
-        printf("No hay busquedas registradas para este usuario.\n");
-    }
-
-    fclose(historial);
+    mostrarPila(historialPila);
 }
 
 void agregarJuego(Map *mapa, List *lista)
@@ -593,6 +568,8 @@ void menuPrincipal()
     fgets(username, MAX_USERNAME, stdin);
     username[strcspn(username, "\n")] = 0;
 
+    PilaHistorial *historialPila = cargarHistorial(username);
+
     int opcion;
     do
     {
@@ -628,16 +605,17 @@ void menuPrincipal()
             }
             break;
         case 4:
-            buscarJuego(mapa, &pc, username);
+            buscarJuego(mapa, &pc, username, historialPila);
             break;
         case 5:
-            verHistorial(username);
+            verHistorial(historialPila, username);
             break;
         case 6:
             agregarJuego(mapa, lista);
             break;
         case 7:
             guardarCatalogo(lista);
+            liberarPila(historialPila);
             printf("Saliendo...\n");
             break;
         default:
