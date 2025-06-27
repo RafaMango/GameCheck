@@ -103,3 +103,41 @@ void presioneTeclaParaContinuar()
   while (getchar() != '\n'); // limpia buffer
       getchar(); // espera Enter
 }
+
+//funciones de pila para historial (Amanda)
+pilaHistorial *crearPila(){
+      PilaHistorial *pila = malloc(sizeof(pilaHistorial));
+    pila->tope = NULL;
+    return pila;
+} // le reserva memoria a la pila
+
+void apilar(PilaHistorial *pila, const char *Juego) { //para nueva busqueda, crea un nuevo nodo
+  NodoHistorial *nuevo = malloc(sizeof(NodoHistorial));
+  strncpy(nuevo->juego, juego, 99); //le copia la información 
+  nuevo->juego[99] = '\0';
+  nuevo->siguiente = pila->tope;
+  pila->tope = nuevo;
+}
+
+void mostrarPila(PilaHistorial *pila){
+  NodoHistorial *actual = pila->tope;
+  if (!actual){
+    printf("No hay historial.\n");
+    return;
+  }
+  printf("Historial\n");
+  while (actual != NULL){
+    printf("- %s\n", actual->juego);
+    actual = actual->siguiente;
+  }
+}
+
+void liberarPila(PilaHistorial *pila){
+  NodoHistorial *actual = pila->tope;
+  while (actual != NULL){
+    NodoHistorial *temp = actual;
+    actual = actual->siguiente;
+    free(temp);
+  }
+  free(pila);
+}

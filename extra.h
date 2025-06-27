@@ -76,4 +76,14 @@ void limpiarPantalla();
 
 void presioneTeclaParaContinuar();
 
+// Funciones para pila de historial
+PilaHistorial *crearPila();
+
+void apilar(PilaHistorial *pila, const char *juego);
+
+void mostrarPila(PilaHistorial *pila);
+
+void liberarPila(PilaHistorial *pila);
+
+
 #endif
