@@ -75,7 +75,7 @@ MapPair *map_remove(Map *map, void *key) {
     }
   return NULL;
 }
-/*
+
 MapPair *map_search(Map *map, void *key) {
   for (MapPair *pair = list_first(map->ls); pair != NULL;
        pair = list_next(map->ls)) {
@@ -84,7 +84,7 @@ MapPair *map_search(Map *map, void *key) {
   }
   return NULL;
 }
-*/
+
 MapPair *map_first(Map *map) { return list_first(map->ls); }
 
 MapPair *map_next(Map *map) { return list_next(map->ls); }
