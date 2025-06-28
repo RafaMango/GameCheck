@@ -481,11 +481,22 @@ void ver_historial(const char *nombre_usuario)
 
 void agregar_juego(Map *mapa, List *lista) {
     Juego *nuevo_juego = malloc(sizeof(Juego));
+    if (!nuevo_juego) {
+        printf("Error: No se pudo asignar memoria para el nuevo juego.\n");
+        return;
+    }
 
     printf("\n=== Agregar nuevo juego ===\n");
     printf("Nombre del juego: ");
     fgets(nuevo_juego->nombre, 100, stdin);
     nuevo_juego->nombre[strcspn(nuevo_juego->nombre, "\n")] = 0;
+
+    // Verificar si el juego ya existe
+    if (map_get(mapa, nuevo_juego->nombre) != NULL) {
+        printf("Error: El juego '%s' ya existe en el catálogo.\n", nuevo_juego->nombre);
+        free(nuevo_juego);
+        return;
+    }
 
     printf("CPU mínimo: ");
     fgets(nuevo_juego->cpu_minimo, 50, stdin);
@@ -511,10 +522,14 @@ void agregar_juego(Map *mapa, List *lista) {
     scanf("%d", &nuevo_juego->ram_recomendada);
     while (getchar() != '\n');
 
-    list_pushBack(lista, nuevo_juego);
-    map_insert(mapa, strdup(nuevo_juego->nombre), nuevo_juego);
-
-    printf("Juego agregado exitosamente!\n");
+    // Insertar en el mapa y lista solo si no existe
+    if (map_insert(mapa, strdup(nuevo_juego->nombre), nuevo_juego) != NULL) {
+        list_pushBack(lista, nuevo_juego);
+        printf("Juego agregado exitosamente!\n");
+    } else {
+        printf("Error: No se pudo agregar el juego al catálogo.\n");
+        free(nuevo_juego);
+    }
 }
 
 void guardar_catalogo(List *lista)
