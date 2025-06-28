@@ -12,7 +12,7 @@ Sistema que evalúa la compatibilidad de videojuegos con las especificaciones de
 ## Instalación
 1. Clonar repositorio: `git clone [url]`
 2. Compilar: `gcc -o recomendador main.c map.c list.c extra.c`
-3. Ejecutar: `./recomendador`
+3. Ejecutar: 
 
 ## Uso
 1. Ingresar especificaciones de tu PC
