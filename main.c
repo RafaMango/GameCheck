@@ -16,8 +16,8 @@ typedef struct {
     int puntaje;
 } ComponenteConPuntaje;
 
-ComponentePuntaje cpu_scores[] = {
-    // INTEL Pentium/Celeron (Gama baja) - Ampliado
+ComponenteConPuntaje puntajes_cpu[] = {
+    // INTEL Pentium/Celeron (Gama baja)
     {"Pentium 4", 10},
     {"Pentium D", 12},
     {"Pentium G4400", 18},
@@ -25,20 +25,18 @@ ComponentePuntaje cpu_scores[] = {
     {"Pentium G4560", 25},
     {"Pentium G5400", 30},
     {"Pentium Gold G6400", 35},
-    {"Pentium Gold G7400", 45},  
     {"Celeron G1820", 15},
     {"Celeron G4900", 20},
     {"Celeron G5920", 25},
-    {"Celeron 7305", 40},  
 
-    // INTEL Core 2 Series - Completo
+    // INTEL Core 2 Series
     {"Core 2 Duo E6300", 15},
     {"Core 2 Duo E8400", 18},
     {"Core 2 Quad Q6600", 20},
     {"Core 2 Quad Q9400", 22},
     {"Core 2 Extreme QX9770", 25},
 
-    // INTEL Core i3 (1ra-13ra Gen) - Ampliado
+    // INTEL Core i3 (1ra-10ma Gen)
     {"i3-2100", 30},
     {"i3-2120", 32},
     {"i3-3210", 35},
@@ -52,9 +50,8 @@ ComponentePuntaje cpu_scores[] = {
     {"i3-9100", 50},
     {"i3-10100", 55},
     {"i3-12100", 70},
-    {"i3-13100", 85},  
 
-    // INTEL Core i5 (1ra-13ra Gen) - Ampliado
+    // INTEL Core i5 (1ra-13ra Gen)
     {"i5-2400", 40},
     {"i5-2500", 45},
     {"i5-2500K", 50},
@@ -83,10 +80,9 @@ ComponentePuntaje cpu_scores[] = {
     {"i5-11600K", 95},
     {"i5-12400", 100},
     {"i5-12600K", 110},
-    {"i5-13400", 115}, 
     {"i5-13600K", 125},
 
-    // INTEL Core i7 (1ra-13ra Gen) - Ampliado
+    // INTEL Core i7 (1ra-13ra Gen)
     {"i7-2600", 60},
     {"i7-2600K", 65},
     {"i7-3770", 65},
@@ -110,7 +106,7 @@ ComponentePuntaje cpu_scores[] = {
     {"i7-12700K", 120},
     {"i7-13700K", 135},
 
-    // INTEL Core i9 (7ma-13ra Gen) - Ampliado
+    // INTEL Core i9 (7ma-13ra Gen)
     {"i9-7900X", 100},
     {"i9-9900K", 95},
     {"i9-9900X", 105},
@@ -119,63 +115,47 @@ ComponentePuntaje cpu_scores[] = {
     {"i9-11900K", 110},
     {"i9-12900K", 130},
     {"i9-13900K", 140},
-    {"i9-13900KS", 145}, 
 
-    // INTEL Xeon (Equivalentes a consumo) - Ampliado
+    // INTEL Xeon (Equivalentes a consumo)
     {"Xeon E3-1230", 55},
     {"Xeon E3-1270", 60},
     {"Xeon E3-1275", 62},
     {"Xeon E5-1650", 65},
     {"Xeon W-2123", 80},
     {"Xeon W-2175", 110},
-    {"Xeon W-3175X", 130}, 
 
-    // AMD (para comparación) - Ampliado
+    // AMD (para comparación)
     {"Athlon II X4", 25},
     {"FX-4300", 30},
     {"FX-6300", 35},
     {"FX-8350", 45},
     {"Ryzen 3 1200", 40},
     {"Ryzen 3 3100", 50},
-    {"Ryzen 3 4100", 60},  
     {"Ryzen 5 1400", 55},
     {"Ryzen 5 1600", 60},
     {"Ryzen 5 2600", 70},
     {"Ryzen 5 3600", 80},
-    {"Ryzen 5 4500", 85}, 
     {"Ryzen 5 5600", 95},
-    {"Ryzen 5 7600", 110},  
     {"Ryzen 7 1700", 75},
     {"Ryzen 7 2700", 85},
     {"Ryzen 7 3700X", 85},
-    {"Ryzen 7 5700X", 100},  
     {"Ryzen 7 5800X", 90},
-    {"Ryzen 7 7800X3D", 130},  
     {"Ryzen 9 3900X", 95},
     {"Ryzen 9 5900X", 95},
     {"Ryzen 9 5950X", 100},
-    {"Ryzen 9 7900X", 120}, 
-    {"Ryzen 9 7950X", 110},
-    {"Ryzen 9 7950X3D", 150},  
-    {"Threadripper 3960X", 140},  
-    {"Threadripper 7970X", 160}   
+    {"Ryzen 9 7950X", 110}
 };
 
-ComponentePuntaje gpu_scores[] = {
-    // GPUs INTEGRADAS (Muy bajas) - Ampliado
+ComponenteConPuntaje puntajes_gpu[] = {
+    // GPUs INTEGRADAS (Muy bajas)
     {"Intel HD Graphics", 5},
     {"Intel HD 3000", 10},
     {"Intel HD 4000", 12},
     {"Intel HD 530", 15},
     {"Intel UHD 630", 25},
-    {"Intel UHD 730", 35},  
     {"Intel Iris Xe", 40},
-    {"Intel Arc A380", 60},  
-    {"AMD Radeon Vega 3", 20},  
-    {"AMD Radeon Vega 8", 30}, 
-
     
-    // NVIDIA GT/GTX/RTX - Ampliado
+    // NVIDIA GT/GTX/RTX
     {"GT 710", 15},
     {"GT 730", 20},
     {"GT 1030", 30},
@@ -203,16 +183,11 @@ ComponentePuntaje gpu_scores[] = {
     {"GTX 1080", 85},
     {"GTX 1080 Ti", 90},
     {"GTX 1650", 70},
-    {"GTX 1650 Super", 75},
     {"GTX 1660", 80},
-    {"GTX 1660 Super", 82},  
     {"GTX 1660 Ti", 85},
     {"RTX 2060", 90},
-    {"RTX 2060 Super", 95},  
     {"RTX 2070", 95},
-    {"RTX 2070 Super", 100}, 
     {"RTX 2080", 100},
-    {"RTX 2080 Super", 105}, 
     {"RTX 2080 Ti", 105},
     {"RTX 3050", 85},
     {"RTX 3060", 100},
@@ -223,14 +198,11 @@ ComponentePuntaje gpu_scores[] = {
     {"RTX 3080 Ti", 115},
     {"RTX 3090", 115},
     {"RTX 3090 Ti", 120},
-    {"RTX 4050", 90},  
-    {"RTX 4060 Ti", 115},  
     {"RTX 4070", 120},
-    {"RTX 4070 Ti", 130},  
     {"RTX 4080", 130},
     {"RTX 4090", 140},
     
-    // AMD Radeon - Ampliado
+    // AMD Radeon
     {"Radeon HD 5770", 20},
     {"Radeon HD 7850", 30},
     {"Radeon R7 260X", 35},
@@ -253,10 +225,7 @@ ComponentePuntaje gpu_scores[] = {
     {"RX 5700 XT", 90},
     {"RX 6600", 80},
     {"RX 6600 XT", 85},
-    {"RX 6650 XT", 90},  
-    {"RX 6700", 88},  
     {"RX 6700 XT", 85},
-    {"RX 6750 XT", 95},  
     {"RX 6800", 90},
     {"RX 6800 XT", 95},
     {"RX 6900 XT", 95},
@@ -265,9 +234,7 @@ ComponentePuntaje gpu_scores[] = {
     {"RX 7700 XT", 100},
     {"RX 7800 XT", 110},
     {"RX 7900 XT", 110},
-    {"RX 7900 XTX", 120},
-    {"Radeon Pro W6800", 105},  
-    {"Radeon Pro W7900", 140}   
+    {"RX 7900 XTX", 120}
 };
 
 void liberar_memoria(Map *mapa, List *lista) {
@@ -341,7 +308,7 @@ void agregar_al_historial(const char *nombre_usuario, const char *nombre_juego)
     RegistroHistorial *nuevo_registro = malloc(sizeof(RegistroHistorial));
     strncpy(nuevo_registro->nombre_usuario, nombre_usuario, MAX_NOMBRE_USUARIO);
     strncpy(nuevo_registro->nombre_juego, nombre_juego, 100);
-    
+
     // Leer el historial existente
     List *historial = list_create();
     FILE *archivo = fopen(ARCHIVO_HISTORIAL, "r");
@@ -353,7 +320,7 @@ void agregar_al_historial(const char *nombre_usuario, const char *nombre_juego)
             linea[strcspn(linea, "\n")] = 0;
             char *usuario = strtok(linea, ";");
             char *juego = strtok(NULL, ";");
-            
+
             if (usuario && juego)
             {
                 RegistroHistorial *registro = malloc(sizeof(RegistroHistorial));
@@ -364,16 +331,16 @@ void agregar_al_historial(const char *nombre_usuario, const char *nombre_juego)
         }
         fclose(archivo);
     }
-    
+
     // Agregar el nuevo registro al principio (FIFO)
     list_pushFront(historial, nuevo_registro);
-    
+
     // Mantener solo los últimos MAX_HISTORIAL registros
     while (list_size(historial) > MAX_HISTORIAL)
     {
         free(list_popBack(historial));
     }
-    
+
     // Escribir el historial actualizado
     archivo = fopen(ARCHIVO_HISTORIAL, "w");
     if (!archivo)
@@ -382,12 +349,12 @@ void agregar_al_historial(const char *nombre_usuario, const char *nombre_juego)
         free(historial);
         return;
     }
-    
+
     for (RegistroHistorial *registro = list_first(historial); registro != NULL; registro = list_next(historial))
     {
         fprintf(archivo, "%s;%s\n", registro->nombre_usuario, registro->nombre_juego);
     }
-    
+
     fclose(archivo);
     list_clean(historial);
     free(historial);
@@ -432,7 +399,7 @@ void mostrar_catalogo(List *lista, EspecificacionesPC *pc)
 void ver_historial(const char *nombre_usuario)
 {
     printf("\n=== Historial de búsquedas para %s ===\n", nombre_usuario);
-    
+
     List *historial = list_create();
     FILE *archivo = fopen(ARCHIVO_HISTORIAL, "r");
     if (!archivo)
@@ -440,7 +407,7 @@ void ver_historial(const char *nombre_usuario)
         printf("No hay historial disponible.\n");
         return;
     }
-    
+
     // Leer el archivo y cargar en lista
     char linea[200];
     while (fgets(linea, sizeof(linea), archivo))
@@ -448,7 +415,7 @@ void ver_historial(const char *nombre_usuario)
         linea[strcspn(linea, "\n")] = 0;
         char *usuario = strtok(linea, ";");
         char *juego = strtok(NULL, ";");
-        
+
         if (usuario && juego)
         {
             RegistroHistorial *registro = malloc(sizeof(RegistroHistorial));
@@ -458,7 +425,7 @@ void ver_historial(const char *nombre_usuario)
         }
     }
     fclose(archivo);
-    
+
     // Mostrar solo los del usuario
     int encontrado = 0;
     for (RegistroHistorial *registro = list_first(historial); registro != NULL; registro = list_next(historial))
@@ -469,34 +436,23 @@ void ver_historial(const char *nombre_usuario)
             encontrado = 1;
         }
     }
-    
+
     if (!encontrado)
     {
         printf("No hay búsquedas registradas para este usuario.\n");
     }
-    
+
     list_clean(historial);
     free(historial);
 }
 
 void agregar_juego(Map *mapa, List *lista) {
     Juego *nuevo_juego = malloc(sizeof(Juego));
-    if (!nuevo_juego) {
-        printf("Error: No se pudo asignar memoria para el nuevo juego.\n");
-        return;
-    }
 
     printf("\n=== Agregar nuevo juego ===\n");
     printf("Nombre del juego: ");
     fgets(nuevo_juego->nombre, 100, stdin);
     nuevo_juego->nombre[strcspn(nuevo_juego->nombre, "\n")] = 0;
-
-    // Verificar si el juego ya existe
-    if (map_get(mapa, nuevo_juego->nombre) != NULL) {
-        printf("Error: El juego '%s' ya existe en el catálogo.\n", nuevo_juego->nombre);
-        free(nuevo_juego);
-        return;
-    }
 
     printf("CPU mínimo: ");
     fgets(nuevo_juego->cpu_minimo, 50, stdin);
@@ -522,14 +478,10 @@ void agregar_juego(Map *mapa, List *lista) {
     scanf("%d", &nuevo_juego->ram_recomendada);
     while (getchar() != '\n');
 
-    // Insertar en el mapa y lista solo si no existe
-    if (map_insert(mapa, strdup(nuevo_juego->nombre), nuevo_juego) != NULL) {
-        list_pushBack(lista, nuevo_juego);
-        printf("Juego agregado exitosamente!\n");
-    } else {
-        printf("Error: No se pudo agregar el juego al catálogo.\n");
-        free(nuevo_juego);
-    }
+    list_pushBack(lista, nuevo_juego);
+    map_insert(mapa, strdup(nuevo_juego->nombre), nuevo_juego);
+
+    printf("Juego agregado exitosamente!\n");
 }
 
 void guardar_catalogo(List *lista)
@@ -568,49 +520,48 @@ void mostrar_juego_compatibilidad(Juego *juego, int compatibilidad)
         printf("No compatible\n");
 }
 
-// Función auxiliar para verificar si un juego ya existe
-int juego_existe(Map *mapa, const char *nombre_juego) {
-    return map_get(mapa, nombre_juego) != NULL;
-}
-
-// Modificación en cargar_catalogo para evitar duplicados
-void cargar_catalogo(Map *mapa, List *lista) {
+// Mejorar cargar_catalogo
+void cargar_catalogo(Map *mapa, List *lista)
+{
     FILE *archivo = fopen(ARCHIVO_CATALOGO, "r");
-    if (!archivo) {
+    if (!archivo)
+    {
         printf("No se pudo abrir el archivo de catálogo. Se creará uno nuevo al guardar.\n");
         return;
     }
-    
+
     int juegos_cargados = 0;
     char **campos;
-    while ((campos = leer_linea_csv(archivo, ',')) != NULL) {
-        if (campos[0] == NULL) continue;
-
-        // Verificar si el juego ya existe antes de agregar
-        if (juego_existe(mapa, campos[0])) {
-            printf("Advertencia: El juego '%s' ya existe y será omitido.\n", campos[0]);
+    while ((campos = leer_linea_csv(archivo, ',')) != NULL)
+    {
+        if (campos[0] == NULL || campos[1] == NULL || campos[2] == NULL || 
+            campos[3] == NULL || campos[4] == NULL || campos[5] == NULL || campos[6] == NULL) {
+            printf("Error: Formato inválido en línea del archivo. Se omitirá.\n");
             continue;
         }
 
         Juego *juego = malloc(sizeof(Juego));
-        if (!juego) {
+        if (!juego)
+        {
             printf("Error: Memoria insuficiente.\n");
-            break;
+            fclose(archivo);
+            return;
         }
-        
+
+        // Asignación directa sin validación (riesgoso)
         strncpy(juego->nombre, campos[0], 99);
-        juego->nombre[99] = '\0';
-        
-        // Resto de la carga de datos...
-        
-        if (map_insert(mapa, strdup(juego->nombre), juego)) {
-            list_pushBack(lista, juego);
-            juegos_cargados++;
-        } else {
-            free(juego);
-        }
+        strncpy(juego->cpu_minimo, campos[1], 49);
+        strncpy(juego->gpu_minimo, campos[2], 49);
+        juego->ram_minima = atoi(campos[3]); // Sin validar
+        strncpy(juego->cpu_recomendada, campos[4], 49);
+        strncpy(juego->gpu_recomendada, campos[5], 49);
+        juego->ram_recomendada = atoi(campos[6]); // Sin validar
+
+        list_pushBack(lista, juego);
+        map_insert(mapa, strdup(juego->nombre), juego);
+        juegos_cargados++;
     }
-    
+
     fclose(archivo);
     printf("Se cargaron %d juegos correctamente.\n", juegos_cargados);
 }
@@ -620,10 +571,10 @@ int comparar_juegos_compatibilidad(const void *a, const void *b)
     const Juego *juegoA = *(const Juego **)a;
     const Juego *juegoB = *(const Juego **)b;
     EspecificacionesPC *pc = (EspecificacionesPC *)juegoA->cpu_minimo; // Truco para pasar el PC
-    
+
     int compatA = evaluar_compatibilidad(pc, (Juego *)juegoA);
     int compatB = evaluar_compatibilidad(pc, (Juego *)juegoB);
-    
+
     // Orden ascendente: 0 (no compatibles) primero, luego 1 (mínimos), luego 2 (recomendados)
     if (compatA < compatB) return -1;
     if (compatA > compatB) return 1;
@@ -635,20 +586,20 @@ void ver_juegos_compatibles(List *lista, EspecificacionesPC *pc)
     // Crear un arreglo temporal para ordenar
     int cantidad_juegos = list_size(lista);
     Juego **juegos_ordenados = malloc(cantidad_juegos * sizeof(Juego *));
-    
+
     // Copiar los juegos al arreglo
     int i = 0;
     for (Juego *juego = list_first(lista); juego != NULL; juego = list_next(lista)) 
     {
         juegos_ordenados[i++] = juego;
     }
-    
+
     // Usar qsort para ordenar
     qsort(juegos_ordenados, cantidad_juegos, sizeof(Juego *), comparar_juegos_compatibilidad);
-    
+
     // Mostrar los juegos compatibles
     printf("\n=== Juegos compatibles ===\n");
-    
+
     // Primero mostrar no compatibles (compatibilidad 0)
     for (i = 0; i < cantidad_juegos; i++) 
     {
@@ -657,7 +608,7 @@ void ver_juegos_compatibles(List *lista, EspecificacionesPC *pc)
             mostrar_juego_compatibilidad(juegos_ordenados[i], compatibilidad);
         }
     }
-    
+
     // Luego mostrar que cumplen mínimos (compatibilidad 1)
     for (i = 0; i < cantidad_juegos; i++) 
     {
@@ -666,7 +617,7 @@ void ver_juegos_compatibles(List *lista, EspecificacionesPC *pc)
             mostrar_juego_compatibilidad(juegos_ordenados[i], compatibilidad);
         }
     }
-    
+
     // Finalmente mostrar recomendados (compatibilidad 2)
     for (i = 0; i < cantidad_juegos; i++) 
     {
@@ -675,7 +626,7 @@ void ver_juegos_compatibles(List *lista, EspecificacionesPC *pc)
             mostrar_juego_compatibilidad(juegos_ordenados[i], compatibilidad);
         }
     }
-    
+
     free(juegos_ordenados);
 }
 
@@ -685,11 +636,11 @@ void ingresar_especificaciones(EspecificacionesPC *pc)
     printf("Ingrese CPU (ej: i7-4790): ");
     fgets(pc->cpu, 50, stdin);
     pc->cpu[strcspn(pc->cpu, "\n")] = 0;
-    
+
     printf("Ingrese GPU (ej: GTX 1060): ");
     fgets(pc->gpu, 50, stdin);
     pc->gpu[strcspn(pc->gpu, "\n")] = 0;
-    
+
     // Validar entrada de RAM
     int ram_valida = 0;
     while (!ram_valida)
@@ -701,7 +652,7 @@ void ingresar_especificaciones(EspecificacionesPC *pc)
             continue;
         }
         while (getchar() != '\n');
-        
+
         if (pc->ram < 1)
         {
             printf("La RAM debe ser al menos 1GB. ");
@@ -781,4 +732,3 @@ void menu_principal() {
 int main() {
     menu_principal();
     return 0;
-}
