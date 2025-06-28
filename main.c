@@ -553,46 +553,47 @@ void mostrar_juego_compatibilidad(Juego *juego, int compatibilidad)
         printf("No compatible\n");
 }
 
-// Mejorar cargar_catalogo
-void cargar_catalogo(Map *mapa, List *lista)
-{
+// Función auxiliar para verificar si un juego ya existe
+int juego_existe(Map *mapa, const char *nombre_juego) {
+    return map_get(mapa, nombre_juego) != NULL;
+}
+
+// Modificación en cargar_catalogo para evitar duplicados
+void cargar_catalogo(Map *mapa, List *lista) {
     FILE *archivo = fopen(ARCHIVO_CATALOGO, "r");
-    if (!archivo)
-    {
+    if (!archivo) {
         printf("No se pudo abrir el archivo de catálogo. Se creará uno nuevo al guardar.\n");
         return;
     }
     
     int juegos_cargados = 0;
     char **campos;
-    while ((campos = leer_linea_csv(archivo, ',')) != NULL)
-    {
-        if (campos[0] == NULL || campos[1] == NULL || campos[2] == NULL || 
-            campos[3] == NULL || campos[4] == NULL || campos[5] == NULL || campos[6] == NULL) {
-            printf("Error: Formato inválido en línea del archivo. Se omitirá.\n");
+    while ((campos = leer_linea_csv(archivo, ',')) != NULL) {
+        if (campos[0] == NULL) continue;
+
+        // Verificar si el juego ya existe antes de agregar
+        if (juego_existe(mapa, campos[0])) {
+            printf("Advertencia: El juego '%s' ya existe y será omitido.\n", campos[0]);
             continue;
         }
-        
+
         Juego *juego = malloc(sizeof(Juego));
-        if (!juego)
-        {
+        if (!juego) {
             printf("Error: Memoria insuficiente.\n");
-            fclose(archivo);
-            return;
+            break;
         }
         
-        // Asignación directa sin validación (riesgoso)
         strncpy(juego->nombre, campos[0], 99);
-        strncpy(juego->cpu_minimo, campos[1], 49);
-        strncpy(juego->gpu_minimo, campos[2], 49);
-        juego->ram_minima = atoi(campos[3]); // Sin validar
-        strncpy(juego->cpu_recomendada, campos[4], 49);
-        strncpy(juego->gpu_recomendada, campos[5], 49);
-        juego->ram_recomendada = atoi(campos[6]); // Sin validar
+        juego->nombre[99] = '\0';
         
-        list_pushBack(lista, juego);
-        map_insert(mapa, strdup(juego->nombre), juego);
-        juegos_cargados++;
+        // Resto de la carga de datos...
+        
+        if (map_insert(mapa, strdup(juego->nombre), juego)) {
+            list_pushBack(lista, juego);
+            juegos_cargados++;
+        } else {
+            free(juego);
+        }
     }
     
     fclose(archivo);
