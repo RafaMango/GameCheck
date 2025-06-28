@@ -398,56 +398,14 @@ void mostrar_catalogo(List *lista, EspecificacionesPC *pc)
     }
 }
 
-void ver_historial(const char *nombre_usuario)
-{
-    printf("\n=== Historial de búsquedas para %s ===\n", nombre_usuario);
 
-    List *historial = list_create();
-    FILE *archivo = fopen(ARCHIVO_HISTORIAL, "r");
-    if (!archivo)
-    {
-        printf("No hay historial disponible.\n");
-        return;
-    }
-
-    // Leer el archivo y cargar en lista
-    char linea[200];
-    while (fgets(linea, sizeof(linea), archivo))
-    {
-        linea[strcspn(linea, "\n")] = 0;
-        char *usuario = strtok(linea, ";");
-        char *juego = strtok(NULL, ";");
-
-        if (usuario && juego)
-        {
-            RegistroHistorial *registro = malloc(sizeof(RegistroHistorial));
-            strncpy(registro->nombre_usuario, usuario, MAX_NOMBRE_USUARIO);
-            strncpy(registro->nombre_juego, juego, 100);
-            list_pushBack(historial, registro);
-        }
-    }
-    fclose(archivo);
-
-    // Mostrar solo los del usuario
-    int encontrado = 0;
-    for (RegistroHistorial *registro = list_first(historial); registro != NULL; registro = list_next(historial))
-    {
-        if (strcmp(registro->nombre_usuario, nombre_usuario) == 0)
-        {
-            printf("- %s\n", registro->nombre_juego);
-            encontrado = 1;
-        }
-    }
-
-    if (!encontrado)
-    {
-        printf("No hay búsquedas registradas para este usuario.\n");
-    }
-
-    list_clean(historial);
-    free(historial);
-}
-
+/*
+Agrega un nuevo juego al catálogo.
+Solicita al usuario los datos del juego (nombre, requisitos mínimos y recomendados).
+Verifica que el juego no exista previamente en el catálogo.
+Inserta el juego en un Map (para búsquedas eficientes) y en una List (para mantener orden).
+Utiliza los TDAs Map y List para almacenar la información.
+ */
 void agregar_juego(Map *mapa, List *lista) {
     // 1. Reservar memoria para el nuevo juego
     Juego *nuevo_juego = (Juego*)malloc(sizeof(Juego));
@@ -547,6 +505,11 @@ void agregar_juego(Map *mapa, List *lista) {
            nuevo_juego->cpu_recomendada, nuevo_juego->gpu_recomendada, nuevo_juego->ram_recomendada);
 }
 
+/*
+Guarda el catálogo actual en un archivo CSV.
+Recorre la lista de juegos y escribe cada uno en el archivo.
+Utiliza el TDA List para acceder secuencialmente a todos los juegos.
+ */
 void guardar_catalogo(List *lista)
 {
     FILE *archivo = fopen(ARCHIVO_CATALOGO, "w");
@@ -569,6 +532,12 @@ void guardar_catalogo(List *lista)
     printf("Catálogo guardado exitosamente.\n");
 }
 
+/*
+Muestra la información de un juego junto con su nivel de compatibilidad.
+Recibe un juego y un valor de compatibilidad (0-2).
+Muestra los requisitos y el estado de compatibilidad formateado.
+No utiliza TDAs directamente, es una función de apoyo.
+ */
 void mostrar_juego_compatibilidad(Juego *juego, int compatibilidad)
 {
     printf("\n%s\n", juego->nombre);
@@ -592,6 +561,13 @@ int juego_existe(Map *mapa, char *nombre_juego) {
     return map_get(mapa, nombre_juego) != NULL;
 }
 
+/*
+Carga el catálogo desde un archivo al inicio del programa.
+Lee el archivo CSV línea por línea, parsea los datos y crea estructuras Juego.
+Verifica y evita duplicados usando el Map.
+Almacena los juegos tanto en Map (para búsqueda) como en List (para orden).
+Utiliza los TDAs Map y List para organizar los datos.
+ */
 void cargar_catalogo(Map *mapa, List *lista) {
     FILE *archivo = fopen(ARCHIVO_CATALOGO, "r");
     if (!archivo) {
@@ -667,6 +643,12 @@ void cargar_catalogo(Map *mapa, List *lista) {
     printf("Se cargaron %d juegos correctamente.\n", juegos_cargados);
 }
 
+/*
+Compara dos juegos por su nivel de compatibilidad con una PC específica.
+Función auxiliar para qsort() que ordena juegos por compatibilidad.
+Accede a las especificaciones PC almacenadas en un campo (usado como "truco").
+No utiliza TDAs directamente, es una función de comparación.
+ */
 int comparar_juegos_compatibilidad(const void *a, const void *b)
 {
     const Juego *juegoA = *(const Juego **)a;
@@ -682,6 +664,12 @@ int comparar_juegos_compatibilidad(const void *a, const void *b)
     return 0;
 }
 
+/*
+Muestra todos los juegos ordenados por compatibilidad con la PC actual.
+Crea un arreglo temporal con los juegos para ordenarlos con qsort().
+Muestra en grupos: no compatibles, mínimos y recomendados.
+Utiliza el TDA List para obtener los juegos y un arreglo temporal para ordenar.
+ */
 void ver_juegos_compatibles(List *lista, EspecificacionesPC *pc)
 {
     // Crear un arreglo temporal para ordenar
@@ -731,7 +719,12 @@ void ver_juegos_compatibles(List *lista, EspecificacionesPC *pc)
     free(juegos_ordenados);
 }
 
-// Mejorar la función ingresar_especificaciones
+/*
+Solicita al usuario las especificaciones de su PC.
+Pide CPU, GPU y RAM, con validación de entrada para la RAM.
+Almacena los datos en una estructura EspecificacionesPC.
+No utiliza TDAs directamente, es una función de entrada de datos.
+ */
 void ingresar_especificaciones(EspecificacionesPC *pc) 
 {
     printf("Ingrese CPU (ej: i7-4790): ");
@@ -764,6 +757,12 @@ void ingresar_especificaciones(EspecificacionesPC *pc)
     }
 }
 
+/*
+Elimina juegos duplicados del catálogo.
+Usa un Map temporal para detectar duplicados mientras recorre la Lista.
+Crea una nueva lista solo con juegos únicos y reemplaza la original.
+Utiliza los TDAs Map y List para identificar y eliminar duplicados.
+ */
 void eliminar_juegos_repetidos(Map *mapa, List *lista) {
     // Crear un mapa temporal para detectar duplicados
     Map *mapa_temporal = map_create(NULL); // Usamos NULL porque no necesitamos función de comparación
@@ -823,6 +822,12 @@ void eliminar_juegos_repetidos(Map *mapa, List *lista) {
     printf("- Juegos duplicados eliminados: %d\n", juegos_eliminados);
 }
 
+/*
+Menú principal del programa.
+Coordina todas las funcionalidades mediante un menú interactivo.
+Inicializa y libera los TDAs principales (Map y List).
+Gestiona el flujo principal de la aplicación.
+ */
 void menu_principal() {
     system("chcp 65001");
     system("cls");
