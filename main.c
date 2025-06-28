@@ -252,7 +252,7 @@ void liberar_memoria(Map *mapa, List *lista) {
     }
 
     // Liberar las estructuras principales
-    //map_destroy(mapa);
+    map_destroy(mapa);
     list_clean(lista);
     free(lista);
 }

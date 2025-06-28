@@ -90,15 +90,16 @@ MapPair *map_first(Map *map) { return list_first(map->ls); }
 MapPair *map_next(Map *map) { return list_next(map->ls); }
 
 void map_clean(Map *map) { list_clean(map->ls); }
-/**
-void map_destroy(Map *map) {
+
+void map_destroy(Map map)
+{
+  if (map == NULL) return;
   MapPair *pair;
-  while ((pair = list_popFront(map->ls)) != NULL) {
-    free(pair->key);   // Liberar la clave duplicada
-    free(pair->value); // Liberar el valor
-    free(pair);
+  while ((pair = list_popFront(map->ls)) != NULL) 
+  {
+    if (pair->key) free(pair->key);     // Liberar la clave si fue duplicada
+    if (pair->value) free(pair->value); // Liberar el valor si fue duplicado
+    free(pair);                         // Liberar el par
   }
-  list_destroy(map->ls);
-  free(map);
+  free(map);             // Liberar el mapa en sí
 }
-**/
