@@ -7,31 +7,9 @@
 
 #define ARCHIVO_CATALOGO "videojuegosDos.csv"
 #define ARCHIVO_HISTORIAL "historial.txt"
-/*
-#define MAX_NOMBRE_USUARIO 50
-#define MAX_HISTORIAL 100
 
-typedef struct {
-    char nombre[100];
-    char cpu_minimo[50];
-    char gpu_minimo[50];
-    int ram_minima;
-    char cpu_recomendada[50];
-    char gpu_recomendada[50];
-    int ram_recomendada;
-} Juego;
+//LAS ESTRUCTURAS JUEGO, ESPECIFICACIONESPC Y REGISTROHISTORIAL SE DEFINEN EN extra.h
 
-typedef struct {
-    char cpu[50];
-    char gpu[50];
-    int ram;
-} EspecificacionesPC;
-
-typedef struct {
-    char nombre_usuario[MAX_NOMBRE_USUARIO];
-    char nombre_juego[100];
-} RegistroHistorial;
-*/
 // Tablas de puntajes aproximados para CPUs y GPUs
 typedef struct {
     char modelo[50];
@@ -45,6 +23,26 @@ ComponenteConPuntaje puntajes_cpu[] = {
 ComponenteConPuntaje puntajes_gpu[] = {
     // ... (contenido igual pero con comentarios en español)
 };
+
+void liberar_memoria(Map *mapa, List *lista) {
+    // Liberar memoria de los juegos en la lista
+    Juego *juego;
+    while ((juego = list_popFront(lista)) != NULL) {
+        free(juego);
+    }
+
+    // Liberar memoria del mapa (las claves son strdup)
+    MapPair *pair;
+    while ((pair = map_remove(mapa, list_first(lista)))) {
+        free(pair->key); // Liberar la clave duplicada
+        // El valor (juego) ya fue liberado en el paso anterior
+    }
+
+    // Liberar las estructuras principales
+    //map_destroy(mapa);
+    list_clean(lista);
+    free(lista);
+}
 
 // Función para obtener puntaje dado un modelo
 int obtener_puntaje(ComponenteConPuntaje *tabla, int cantidad, const char *modelo_usuario)
@@ -506,6 +504,7 @@ void menu_principal() {
             break;
         case 7:
             guardar_catalogo(lista);
+            liberar_memoria(mapa, lista); // Liberar memoria del mapa y lista
             printf("Saliendo...\n");
             break;
         default:
