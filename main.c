@@ -399,6 +399,62 @@ void mostrar_catalogo(List *lista, EspecificacionesPC *pc)
 }
 
 
+/* 
+Muestra el historial de búsquedas de un usuario específico.
+Lee el archivo de historial y carga los registros en una lista.
+Filtra y muestra solo los registros del usuario indicado.
+Utiliza el TDA List para almacenar temporalmente los registros.
+ */
+void ver_historial(const char *nombre_usuario)
+{
+    printf("\n=== Historial de búsquedas para %s ===\n", nombre_usuario);
+
+    List *historial = list_create();
+    FILE *archivo = fopen(ARCHIVO_HISTORIAL, "r");
+    if (!archivo)
+    {
+        printf("No hay historial disponible.\n");
+        return;
+    }
+
+    // Leer el archivo y cargar en lista
+    char linea[200];
+    while (fgets(linea, sizeof(linea), archivo))
+    {
+        linea[strcspn(linea, "\n")] = 0;
+        char *usuario = strtok(linea, ";");
+        char *juego = strtok(NULL, ";");
+
+        if (usuario && juego)
+        {
+            RegistroHistorial *registro = malloc(sizeof(RegistroHistorial));
+            strncpy(registro->nombre_usuario, usuario, MAX_NOMBRE_USUARIO);
+            strncpy(registro->nombre_juego, juego, 100);
+            list_pushBack(historial, registro);
+        }
+    }
+    fclose(archivo);
+
+    // Mostrar solo los del usuario
+    int encontrado = 0;
+    for (RegistroHistorial *registro = list_first(historial); registro != NULL; registro = list_next(historial))
+    {
+        if (strcmp(registro->nombre_usuario, nombre_usuario) == 0)
+        {
+            printf("- %s\n", registro->nombre_juego);
+            encontrado = 1;
+        }
+    }
+
+    if (!encontrado)
+    {
+        printf("No hay búsquedas registradas para este usuario.\n");
+    }
+
+    list_clean(historial);
+    free(historial);
+}
+
 /*
 Agrega un nuevo juego al catálogo.
 Solicita al usuario los datos del juego (nombre, requisitos mínimos y recomendados).
