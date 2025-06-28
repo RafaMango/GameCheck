@@ -447,41 +447,102 @@ void ver_historial(const char *nombre_usuario)
 }
 
 void agregar_juego(Map *mapa, List *lista) {
-    Juego *nuevo_juego = malloc(sizeof(Juego));
+    // 1. Reservar memoria para el nuevo juego
+    Juego *nuevo_juego = (Juego*)malloc(sizeof(Juego));
+    if (nuevo_juego == NULL) {
+        printf("Error: No se pudo asignar memoria para el nuevo juego.\n");
+        return;
+    }
 
+    // 2. Solicitar datos del juego
     printf("\n=== Agregar nuevo juego ===\n");
+    
+    // 2.1. Nombre del juego
     printf("Nombre del juego: ");
     fgets(nuevo_juego->nombre, 100, stdin);
-    nuevo_juego->nombre[strcspn(nuevo_juego->nombre, "\n")] = 0;
+    nuevo_juego->nombre[strcspn(nuevo_juego->nombre, "\n")] = '\0';  // Eliminar salto de línea
 
-    printf("CPU mínimo: ");
+    // 3. Verificar si el juego ya existe
+    if (map_search(mapa, nuevo_juego->nombre) != NULL) {
+        printf("Error: El juego '%s' ya existe en el catálogo.\n", nuevo_juego->nombre);
+        free(nuevo_juego);
+        return;
+    }
+
+    // 4. Solicitar requisitos mínimos
+    printf("CPU mínimo (ej: i5-4690K): ");
     fgets(nuevo_juego->cpu_minimo, 50, stdin);
-    nuevo_juego->cpu_minimo[strcspn(nuevo_juego->cpu_minimo, "\n")] = 0;
+    nuevo_juego->cpu_minimo[strcspn(nuevo_juego->cpu_minimo, "\n")] = '\0';
 
-    printf("GPU mínimo: ");
+    printf("GPU mínimo (ej: GTX 1060): ");
     fgets(nuevo_juego->gpu_minimo, 50, stdin);
-    nuevo_juego->gpu_minimo[strcspn(nuevo_juego->gpu_minimo, "\n")] = 0;
+    nuevo_juego->gpu_minimo[strcspn(nuevo_juego->gpu_minimo, "\n")] = '\0';
 
-    printf("RAM mínima (GB): ");
-    scanf("%d", &nuevo_juego->ram_minima);
-    while (getchar() != '\n');
+    // 4.1. Validar RAM mínima
+    int ram_valida = 0;
+    while (!ram_valida) {
+        printf("RAM mínima (GB, mínimo 1): ");
+        if (scanf("%d", &nuevo_juego->ram_minima) != 1) {
+            printf("Entrada inválida. ");
+            while (getchar() != '\n'); // Limpiar buffer
+            continue;
+        }
+        while (getchar() != '\n'); // Limpiar buffer
+        
+        if (nuevo_juego->ram_minima < 1) {
+            printf("La RAM debe ser al menos 1GB. ");
+        } else {
+            ram_valida = 1;
+        }
+    }
 
-    printf("CPU recomendada: ");
+    // 5. Solicitar requisitos recomendados
+    printf("CPU recomendada (ej: i7-7700K): ");
     fgets(nuevo_juego->cpu_recomendada, 50, stdin);
-    nuevo_juego->cpu_recomendada[strcspn(nuevo_juego->cpu_recomendada, "\n")] = 0;
+    nuevo_juego->cpu_recomendada[strcspn(nuevo_juego->cpu_recomendada, "\n")] = '\0';
 
-    printf("GPU recomendada: ");
+    printf("GPU recomendada (ej: RTX 2060): ");
     fgets(nuevo_juego->gpu_recomendada, 50, stdin);
-    nuevo_juego->gpu_recomendada[strcspn(nuevo_juego->gpu_recomendada, "\n")] = 0;
+    nuevo_juego->gpu_recomendada[strcspn(nuevo_juego->gpu_recomendada, "\n")] = '\0';
 
-    printf("RAM recomendada (GB): ");
-    scanf("%d", &nuevo_juego->ram_recomendada);
-    while (getchar() != '\n');
+    // 5.1. Validar RAM recomendada
+    ram_valida = 0;
+    while (!ram_valida) {
+        printf("RAM recomendada (GB, mínimo %d): ", nuevo_juego->ram_minima);
+        if (scanf("%d", &nuevo_juego->ram_recomendada) != 1) {
+            printf("Entrada inválida. ");
+            while (getchar() != '\n');
+            continue;
+        }
+        while (getchar() != '\n');
+        
+        if (nuevo_juego->ram_recomendada < nuevo_juego->ram_minima) {
+            printf("La RAM recomendada no puede ser menor que la mínima (%dGB). ", nuevo_juego->ram_minima);
+        } else {
+            ram_valida = 1;
+        }
+    }
 
+    // 6. Insertar el juego en las estructuras de datos
+    char *clave = strdup(nuevo_juego->nombre);
+    if (clave == NULL) {
+        printf("Error: No se pudo duplicar el nombre del juego.\n");
+        free(nuevo_juego);
+        return;
+    }
+
+    // 6.1. Insertar en el mapa (usando la versión actual de map_insert)
+    map_insert(mapa, clave, nuevo_juego);
+    
+    // 6.2. Insertar en la lista
     list_pushBack(lista, nuevo_juego);
-    map_insert(mapa, strdup(nuevo_juego->nombre), nuevo_juego);
 
-    printf("Juego agregado exitosamente!\n");
+    // 7. Confirmación
+    printf("\nJuego '%s' agregado exitosamente!\n", nuevo_juego->nombre);
+    printf("Requisitos mínimos: %s, %s, %dGB RAM\n", 
+           nuevo_juego->cpu_minimo, nuevo_juego->gpu_minimo, nuevo_juego->ram_minima);
+    printf("Requisitos recomendados: %s, %s, %dGB RAM\n", 
+           nuevo_juego->cpu_recomendada, nuevo_juego->gpu_recomendada, nuevo_juego->ram_recomendada);
 }
 
 void guardar_catalogo(List *lista)
@@ -520,48 +581,86 @@ void mostrar_juego_compatibilidad(Juego *juego, int compatibilidad)
         printf("No compatible\n");
 }
 
-// Mejorar cargar_catalogo
-void cargar_catalogo(Map *mapa, List *lista)
-{
+// Función auxiliar para verificar si un juego ya existe
+int juego_existe(Map *mapa, char *nombre_juego) {
+    if (!mapa || !nombre_juego) {
+        return 0;
+    }
+    
+    return map_get(mapa, nombre_juego) != NULL;
+}
+
+void cargar_catalogo(Map *mapa, List *lista) {
     FILE *archivo = fopen(ARCHIVO_CATALOGO, "r");
-    if (!archivo)
-    {
+    if (!archivo) {
         printf("No se pudo abrir el archivo de catálogo. Se creará uno nuevo al guardar.\n");
         return;
     }
-
+    
     int juegos_cargados = 0;
-    char **campos;
-    while ((campos = leer_linea_csv(archivo, ',')) != NULL)
-    {
-        if (campos[0] == NULL || campos[1] == NULL || campos[2] == NULL || 
-            campos[3] == NULL || campos[4] == NULL || campos[5] == NULL || campos[6] == NULL) {
-            printf("Error: Formato inválido en línea del archivo. Se omitirá.\n");
+    char linea[256];
+    
+    while (fgets(linea, sizeof(linea), archivo)) {
+        char *token;
+        char *campos[7];
+        int i = 0;
+        
+        token = strtok(linea, ",");
+        while (token != NULL && i < 7) {
+            campos[i++] = token;
+            token = strtok(NULL, ",");
+        }
+        
+        if (i < 7) {
+            printf("Error: Formato incorrecto en línea del archivo.\n");
+            continue;
+        }
+        
+        // Verificar si el juego ya existe
+        if (map_get(mapa, campos[0]) != NULL) {
+            printf("Advertencia: El juego '%s' ya existe y será omitido.\n", campos[0]);
             continue;
         }
 
         Juego *juego = malloc(sizeof(Juego));
-        if (!juego)
-        {
+        if (!juego) {
             printf("Error: Memoria insuficiente.\n");
-            fclose(archivo);
-            return;
+            break;
         }
-
-        // Asignación directa sin validación (riesgoso)
+        
+        // Copiar todos los campos
         strncpy(juego->nombre, campos[0], 99);
+        juego->nombre[99] = '\0';
+        
         strncpy(juego->cpu_minimo, campos[1], 49);
+        juego->cpu_minimo[49] = '\0';
+        
         strncpy(juego->gpu_minimo, campos[2], 49);
-        juego->ram_minima = atoi(campos[3]); // Sin validar
+        juego->gpu_minimo[49] = '\0';
+        
+        juego->ram_minima = atoi(campos[3]);
+        
         strncpy(juego->cpu_recomendada, campos[4], 49);
+        juego->cpu_recomendada[49] = '\0';
+        
         strncpy(juego->gpu_recomendada, campos[5], 49);
-        juego->ram_recomendada = atoi(campos[6]); // Sin validar
+        juego->gpu_recomendada[49] = '\0';
+        
+        juego->ram_recomendada = atoi(campos[6]);
 
+        // Insertar en el mapa y lista
+        char *clave = strdup(juego->nombre);
+        if (!clave) {
+            printf("Error: No se pudo duplicar el nombre del juego.\n");
+            free(juego);
+            continue;
+        }
+        
+        map_insert(mapa, clave, juego);
         list_pushBack(lista, juego);
-        map_insert(mapa, strdup(juego->nombre), juego);
         juegos_cargados++;
     }
-
+    
     fclose(archivo);
     printf("Se cargaron %d juegos correctamente.\n", juegos_cargados);
 }
@@ -732,3 +831,4 @@ void menu_principal() {
 int main() {
     menu_principal();
     return 0;
+}

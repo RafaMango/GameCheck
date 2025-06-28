@@ -90,7 +90,7 @@ MapPair *map_first(Map *map) { return list_first(map->ls); }
 MapPair *map_next(Map *map) { return list_next(map->ls); }
 
 void map_clean(Map *map) { list_clean(map->ls); }
-
+/**
 void map_destroy(Map *map) {
   MapPair *pair;
   while ((pair = list_popFront(map->ls)) != NULL) {
@@ -101,3 +101,4 @@ void map_destroy(Map *map) {
   list_destroy(map->ls);
   free(map);
 }
+**/
