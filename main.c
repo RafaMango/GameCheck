@@ -6,7 +6,7 @@
 #include <string.h>
 
 #define ARCHIVO_CATALOGO "videojuegosDos.csv"
-#define ARCHIVO_HISTORIAL "historial.txt"
+#define ARCHIVO_HISTORIAL "historial.csv"
 
 //LAS ESTRUCTURAS JUEGO, ESPECIFICACIONESPC Y REGISTROHISTORIAL SE DEFINEN EN extra.h
 
