@@ -17,7 +17,7 @@ typedef struct {
 } ComponenteConPuntaje;
 
 ComponentePuntaje cpu_scores[] = {
-    // INTEL Pentium/Celeron (Gama baja)
+    // INTEL Pentium/Celeron (Gama baja) - Ampliado
     {"Pentium 4", 10},
     {"Pentium D", 12},
     {"Pentium G4400", 18},
@@ -25,18 +25,20 @@ ComponentePuntaje cpu_scores[] = {
     {"Pentium G4560", 25},
     {"Pentium G5400", 30},
     {"Pentium Gold G6400", 35},
+    {"Pentium Gold G7400", 45},  // Nuevo
     {"Celeron G1820", 15},
     {"Celeron G4900", 20},
     {"Celeron G5920", 25},
+    {"Celeron 7305", 40},  // Nuevo
 
-    // INTEL Core 2 Series
+    // INTEL Core 2 Series - Completo
     {"Core 2 Duo E6300", 15},
     {"Core 2 Duo E8400", 18},
     {"Core 2 Quad Q6600", 20},
     {"Core 2 Quad Q9400", 22},
     {"Core 2 Extreme QX9770", 25},
 
-    // INTEL Core i3 (1ra-10ma Gen)
+    // INTEL Core i3 (1ra-13ra Gen) - Ampliado
     {"i3-2100", 30},
     {"i3-2120", 32},
     {"i3-3210", 35},
@@ -50,8 +52,9 @@ ComponentePuntaje cpu_scores[] = {
     {"i3-9100", 50},
     {"i3-10100", 55},
     {"i3-12100", 70},
+    {"i3-13100", 85},  // Nuevo
 
-    // INTEL Core i5 (1ra-13ra Gen)
+    // INTEL Core i5 (1ra-13ra Gen) - Ampliado
     {"i5-2400", 40},
     {"i5-2500", 45},
     {"i5-2500K", 50},
@@ -80,9 +83,10 @@ ComponentePuntaje cpu_scores[] = {
     {"i5-11600K", 95},
     {"i5-12400", 100},
     {"i5-12600K", 110},
+    {"i5-13400", 115},  // Nuevo
     {"i5-13600K", 125},
 
-    // INTEL Core i7 (1ra-13ra Gen)
+    // INTEL Core i7 (1ra-13ra Gen) - Ampliado
     {"i7-2600", 60},
     {"i7-2600K", 65},
     {"i7-3770", 65},
@@ -106,7 +110,7 @@ ComponentePuntaje cpu_scores[] = {
     {"i7-12700K", 120},
     {"i7-13700K", 135},
 
-    // INTEL Core i9 (7ma-13ra Gen)
+    // INTEL Core i9 (7ma-13ra Gen) - Ampliado
     {"i9-7900X", 100},
     {"i9-9900K", 95},
     {"i9-9900X", 105},
@@ -115,35 +119,46 @@ ComponentePuntaje cpu_scores[] = {
     {"i9-11900K", 110},
     {"i9-12900K", 130},
     {"i9-13900K", 140},
+    {"i9-13900KS", 145},  // Nuevo
 
-    // INTEL Xeon (Equivalentes a consumo)
+    // INTEL Xeon (Equivalentes a consumo) - Ampliado
     {"Xeon E3-1230", 55},
     {"Xeon E3-1270", 60},
     {"Xeon E3-1275", 62},
     {"Xeon E5-1650", 65},
     {"Xeon W-2123", 80},
     {"Xeon W-2175", 110},
+    {"Xeon W-3175X", 130},  // Nuevo
 
-    // AMD (para comparación)
+    // AMD (para comparación) - Ampliado
     {"Athlon II X4", 25},
     {"FX-4300", 30},
     {"FX-6300", 35},
     {"FX-8350", 45},
     {"Ryzen 3 1200", 40},
     {"Ryzen 3 3100", 50},
+    {"Ryzen 3 4100", 60},  // Nuevo
     {"Ryzen 5 1400", 55},
     {"Ryzen 5 1600", 60},
     {"Ryzen 5 2600", 70},
     {"Ryzen 5 3600", 80},
+    {"Ryzen 5 4500", 85},  // Nuevo
     {"Ryzen 5 5600", 95},
+    {"Ryzen 5 7600", 110},  // Nuevo
     {"Ryzen 7 1700", 75},
     {"Ryzen 7 2700", 85},
     {"Ryzen 7 3700X", 85},
+    {"Ryzen 7 5700X", 100},  // Nuevo
     {"Ryzen 7 5800X", 90},
+    {"Ryzen 7 7800X3D", 130},  // Nuevo
     {"Ryzen 9 3900X", 95},
     {"Ryzen 9 5900X", 95},
     {"Ryzen 9 5950X", 100},
-    {"Ryzen 9 7950X", 110}
+    {"Ryzen 9 7900X", 120},  // Nuevo
+    {"Ryzen 9 7950X", 110},
+    {"Ryzen 9 7950X3D", 150},  // Nuevo
+    {"Threadripper 3960X", 140},  // Nuevo
+    {"Threadripper 7970X", 160}   // Nuevo
 };
 
 ComponentePuntaje gpu_scores[] = {
