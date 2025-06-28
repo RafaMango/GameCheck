@@ -762,6 +762,65 @@ void ingresar_especificaciones(EspecificacionesPC *pc)
     }
 }
 
+void eliminar_juegos_repetidos(Map *mapa, List *lista) {
+    // Crear un mapa temporal para detectar duplicados
+    Map *mapa_temporal = map_create(NULL); // Usamos NULL porque no necesitamos función de comparación
+    
+    List *lista_unica = list_create(); // Lista para almacenar juegos únicos
+    int juegos_eliminados = 0;
+
+    printf("\n=== Eliminando juegos duplicados ===\n");
+
+    // Recorrer la lista original
+    Juego *juego_actual = list_first(lista);
+    while (juego_actual != NULL) {
+        // Verificar si el juego ya está en el mapa temporal
+        if (map_search(mapa_temporal, juego_actual->nombre) == NULL) {
+            // Si no está, agregarlo al mapa y a la lista única
+            char *clave = strdup(juego_actual->nombre);
+            if (clave == NULL) {
+                printf("Error: Memoria insuficiente para procesar '%s'\n", juego_actual->nombre);
+                continue;
+            }
+            
+            map_insert(mapa_temporal, clave, juego_actual);
+            list_pushBack(lista_unica, juego_actual);
+        } else {
+            // Si está duplicado, contarlo para el reporte
+            juegos_eliminados++;
+            printf("Encontrado duplicado: %s\n", juego_actual->nombre);
+        }
+        
+        juego_actual = list_next(lista);
+    }
+
+    // Actualizar la lista original
+    list_clean(lista); // Limpiar la lista original
+    
+    // Copiar los elementos únicos de vuelta a la lista original
+    Juego *juego_unico = list_first(lista_unica);
+    while (juego_unico != NULL) {
+        list_pushBack(lista, juego_unico);
+        juego_unico = list_next(lista_unica);
+    }
+
+    // Actualizar el mapa principal (opcional, si es necesario)
+    // map_clean(mapa);
+    // Copiar los elementos del mapa temporal al principal
+
+    // Liberar recursos temporales
+    list_clean(lista_unica); // Solo limpia los nodos, no los juegos
+    free(lista_unica);
+    
+    // No liberamos los juegos del mapa temporal porque son los mismos que quedaron en la lista
+    map_clean(mapa_temporal);
+    free(mapa_temporal);
+
+    printf("\nResumen:\n");
+    printf("- Juegos únicos conservados: %d\n", list_size(lista));
+    printf("- Juegos duplicados eliminados: %d\n", juegos_eliminados);
+}
+
 void menu_principal() {
     system("chcp 65001");
     system("cls");
@@ -815,6 +874,7 @@ void menu_principal() {
             agregar_juego(mapa, lista);
             break;
         case 7:
+            eliminar_juegos_repetidos(mapa, lista);
             guardar_catalogo(lista);
             liberar_memoria(mapa, lista); // Liberar memoria del mapa y lista
             printf("Saliendo...\n");
