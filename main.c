@@ -25,11 +25,11 @@ ComponentePuntaje cpu_scores[] = {
     {"Pentium G4560", 25},
     {"Pentium G5400", 30},
     {"Pentium Gold G6400", 35},
-    {"Pentium Gold G7400", 45},  // Nuevo
+    {"Pentium Gold G7400", 45},  
     {"Celeron G1820", 15},
     {"Celeron G4900", 20},
     {"Celeron G5920", 25},
-    {"Celeron 7305", 40},  // Nuevo
+    {"Celeron 7305", 40},  
 
     // INTEL Core 2 Series - Completo
     {"Core 2 Duo E6300", 15},
@@ -52,7 +52,7 @@ ComponentePuntaje cpu_scores[] = {
     {"i3-9100", 50},
     {"i3-10100", 55},
     {"i3-12100", 70},
-    {"i3-13100", 85},  // Nuevo
+    {"i3-13100", 85},  
 
     // INTEL Core i5 (1ra-13ra Gen) - Ampliado
     {"i5-2400", 40},
@@ -83,7 +83,7 @@ ComponentePuntaje cpu_scores[] = {
     {"i5-11600K", 95},
     {"i5-12400", 100},
     {"i5-12600K", 110},
-    {"i5-13400", 115},  // Nuevo
+    {"i5-13400", 115}, 
     {"i5-13600K", 125},
 
     // INTEL Core i7 (1ra-13ra Gen) - Ampliado
@@ -119,7 +119,7 @@ ComponentePuntaje cpu_scores[] = {
     {"i9-11900K", 110},
     {"i9-12900K", 130},
     {"i9-13900K", 140},
-    {"i9-13900KS", 145},  // Nuevo
+    {"i9-13900KS", 145}, 
 
     // INTEL Xeon (Equivalentes a consumo) - Ampliado
     {"Xeon E3-1230", 55},
@@ -128,7 +128,7 @@ ComponentePuntaje cpu_scores[] = {
     {"Xeon E5-1650", 65},
     {"Xeon W-2123", 80},
     {"Xeon W-2175", 110},
-    {"Xeon W-3175X", 130},  // Nuevo
+    {"Xeon W-3175X", 130}, 
 
     // AMD (para comparación) - Ampliado
     {"Athlon II X4", 25},
@@ -137,40 +137,45 @@ ComponentePuntaje cpu_scores[] = {
     {"FX-8350", 45},
     {"Ryzen 3 1200", 40},
     {"Ryzen 3 3100", 50},
-    {"Ryzen 3 4100", 60},  // Nuevo
+    {"Ryzen 3 4100", 60},  
     {"Ryzen 5 1400", 55},
     {"Ryzen 5 1600", 60},
     {"Ryzen 5 2600", 70},
     {"Ryzen 5 3600", 80},
-    {"Ryzen 5 4500", 85},  // Nuevo
+    {"Ryzen 5 4500", 85}, 
     {"Ryzen 5 5600", 95},
-    {"Ryzen 5 7600", 110},  // Nuevo
+    {"Ryzen 5 7600", 110},  
     {"Ryzen 7 1700", 75},
     {"Ryzen 7 2700", 85},
     {"Ryzen 7 3700X", 85},
-    {"Ryzen 7 5700X", 100},  // Nuevo
+    {"Ryzen 7 5700X", 100},  
     {"Ryzen 7 5800X", 90},
-    {"Ryzen 7 7800X3D", 130},  // Nuevo
+    {"Ryzen 7 7800X3D", 130},  
     {"Ryzen 9 3900X", 95},
     {"Ryzen 9 5900X", 95},
     {"Ryzen 9 5950X", 100},
-    {"Ryzen 9 7900X", 120},  // Nuevo
+    {"Ryzen 9 7900X", 120}, 
     {"Ryzen 9 7950X", 110},
-    {"Ryzen 9 7950X3D", 150},  // Nuevo
-    {"Threadripper 3960X", 140},  // Nuevo
-    {"Threadripper 7970X", 160}   // Nuevo
+    {"Ryzen 9 7950X3D", 150},  
+    {"Threadripper 3960X", 140},  
+    {"Threadripper 7970X", 160}   
 };
 
 ComponentePuntaje gpu_scores[] = {
-    // GPUs INTEGRADAS (Muy bajas)
+    // GPUs INTEGRADAS (Muy bajas) - Ampliado
     {"Intel HD Graphics", 5},
     {"Intel HD 3000", 10},
     {"Intel HD 4000", 12},
     {"Intel HD 530", 15},
     {"Intel UHD 630", 25},
+    {"Intel UHD 730", 35},  
     {"Intel Iris Xe", 40},
+    {"Intel Arc A380", 60},  
+    {"AMD Radeon Vega 3", 20},  
+    {"AMD Radeon Vega 8", 30}, 
+
     
-    // NVIDIA GT/GTX/RTX
+    // NVIDIA GT/GTX/RTX - Ampliado
     {"GT 710", 15},
     {"GT 730", 20},
     {"GT 1030", 30},
@@ -198,11 +203,16 @@ ComponentePuntaje gpu_scores[] = {
     {"GTX 1080", 85},
     {"GTX 1080 Ti", 90},
     {"GTX 1650", 70},
+    {"GTX 1650 Super", 75},
     {"GTX 1660", 80},
+    {"GTX 1660 Super", 82},  
     {"GTX 1660 Ti", 85},
     {"RTX 2060", 90},
+    {"RTX 2060 Super", 95},  
     {"RTX 2070", 95},
+    {"RTX 2070 Super", 100}, 
     {"RTX 2080", 100},
+    {"RTX 2080 Super", 105}, 
     {"RTX 2080 Ti", 105},
     {"RTX 3050", 85},
     {"RTX 3060", 100},
@@ -213,11 +223,14 @@ ComponentePuntaje gpu_scores[] = {
     {"RTX 3080 Ti", 115},
     {"RTX 3090", 115},
     {"RTX 3090 Ti", 120},
+    {"RTX 4050", 90},  
+    {"RTX 4060 Ti", 115},  
     {"RTX 4070", 120},
+    {"RTX 4070 Ti", 130},  
     {"RTX 4080", 130},
     {"RTX 4090", 140},
     
-    // AMD Radeon
+    // AMD Radeon - Ampliado
     {"Radeon HD 5770", 20},
     {"Radeon HD 7850", 30},
     {"Radeon R7 260X", 35},
@@ -240,7 +253,10 @@ ComponentePuntaje gpu_scores[] = {
     {"RX 5700 XT", 90},
     {"RX 6600", 80},
     {"RX 6600 XT", 85},
+    {"RX 6650 XT", 90},  
+    {"RX 6700", 88},  
     {"RX 6700 XT", 85},
+    {"RX 6750 XT", 95},  
     {"RX 6800", 90},
     {"RX 6800 XT", 95},
     {"RX 6900 XT", 95},
@@ -249,7 +265,9 @@ ComponentePuntaje gpu_scores[] = {
     {"RX 7700 XT", 100},
     {"RX 7800 XT", 110},
     {"RX 7900 XT", 110},
-    {"RX 7900 XTX", 120}
+    {"RX 7900 XTX", 120},
+    {"Radeon Pro W6800", 105},  
+    {"Radeon Pro W7900", 140}   
 };
 
 void liberar_memoria(Map *mapa, List *lista) {
