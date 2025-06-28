@@ -7,6 +7,7 @@
 
 #define ARCHIVO_CATALOGO "videojuegosDos.csv"
 #define ARCHIVO_HISTORIAL "historial.txt"
+/*
 #define MAX_NOMBRE_USUARIO 50
 #define MAX_HISTORIAL 100
 
@@ -30,7 +31,7 @@ typedef struct {
     char nombre_usuario[MAX_NOMBRE_USUARIO];
     char nombre_juego[100];
 } RegistroHistorial;
-
+*/
 // Tablas de puntajes aproximados para CPUs y GPUs
 typedef struct {
     char modelo[50];

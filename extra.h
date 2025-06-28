@@ -6,16 +6,18 @@
 #include <string.h>
 #include "list.h"
 #include "map.h"
-#define MAX_USERNAME 50
+
+#define MAX_NOMBRE_USUARIO 50
 #define MAX_HISTORIAL 100
+
 typedef struct {
     char nombre[100];
-    char cpu_min[50];
-    char gpu_min[50];
-    int ram_min;
-    char cpu_rec[50];
-    char gpu_rec[50];
-    int ram_rec;
+    char cpu_minimo[50];
+    char gpu_minimo[50];
+    int ram_minima;
+    char cpu_recomendada[50];
+    char gpu_recomendada[50];
+    int ram_recomendada;
 } Juego;
 
 typedef struct {
@@ -25,8 +27,8 @@ typedef struct {
 } EspecificacionesPC;
 
 typedef struct {
-    char username[MAX_USERNAME];
-    char juego[100];
+    char nombre_usuario[MAX_NOMBRE_USUARIO];
+    char nombre_juego[100];
 } RegistroHistorial;
 
 
