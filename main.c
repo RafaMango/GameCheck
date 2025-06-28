@@ -47,9 +47,12 @@ ComponenteConPuntaje puntajes_gpu[] = {
 };
 
 // Función para obtener puntaje dado un modelo
-int obtener_puntaje(ComponenteConPuntaje *tabla, int cantidad, const char *modelo_usuario) {
-    for (int i = 0; i < cantidad; i++) {
-        if (strstr(modelo_usuario, tabla[i].modelo) != NULL) {
+int obtener_puntaje(ComponenteConPuntaje *tabla, int cantidad, const char *modelo_usuario)
+{
+    for (int i = 0; i < cantidad; i++)
+    {
+        if (strstr(modelo_usuario, tabla[i].modelo) != NULL)
+        {
             return tabla[i].puntaje;
         }
     }
@@ -57,7 +60,8 @@ int obtener_puntaje(ComponenteConPuntaje *tabla, int cantidad, const char *model
 }
 
 // Evaluar compatibilidad avanzada CPU+GPU+RAM
-int evaluar_compatibilidad(EspecificacionesPC *pc, Juego *juego) {
+int evaluar_compatibilidad(EspecificacionesPC *pc, Juego *juego)
+{
     // 1. Obtener los puntajes para los componentes del PC del usuario
     int puntaje_cpu_usuario = obtener_puntaje(puntajes_cpu, sizeof(puntajes_cpu) / sizeof(puntajes_cpu[0]), pc->cpu);
     int puntaje_gpu_usuario = obtener_puntaje(puntajes_gpu, sizeof(puntajes_gpu) / sizeof(puntajes_gpu[0]), pc->gpu);
@@ -87,7 +91,8 @@ int evaluar_compatibilidad(EspecificacionesPC *pc, Juego *juego) {
     return 0; // Nivel de compatibilidad: No compatible
 }
 
-void agregar_al_historial(const char *nombre_usuario, const char *nombre_juego) {
+void agregar_al_historial(const char *nombre_usuario, const char *nombre_juego)
+{
     // Crear el nuevo registro
     RegistroHistorial *nuevo_registro = malloc(sizeof(RegistroHistorial));
     strncpy(nuevo_registro->nombre_usuario, nombre_usuario, MAX_NOMBRE_USUARIO);
@@ -96,14 +101,17 @@ void agregar_al_historial(const char *nombre_usuario, const char *nombre_juego) 
     // Leer el historial existente
     List *historial = list_create();
     FILE *archivo = fopen(ARCHIVO_HISTORIAL, "r");
-    if (archivo) {
+    if (archivo)
+    {
         char linea[200];
-        while (fgets(linea, sizeof(linea), archivo)) {
+        while (fgets(linea, sizeof(linea), archivo))
+        {
             linea[strcspn(linea, "\n")] = 0;
             char *usuario = strtok(linea, ";");
             char *juego = strtok(NULL, ";");
             
-            if (usuario && juego) {
+            if (usuario && juego)
+            {
                 RegistroHistorial *registro = malloc(sizeof(RegistroHistorial));
                 strncpy(registro->nombre_usuario, usuario, MAX_NOMBRE_USUARIO);
                 strncpy(registro->nombre_juego, juego, 100);
@@ -117,19 +125,22 @@ void agregar_al_historial(const char *nombre_usuario, const char *nombre_juego) 
     list_pushFront(historial, nuevo_registro);
     
     // Mantener solo los últimos MAX_HISTORIAL registros
-    while (list_size(historial) > MAX_HISTORIAL) {
+    while (list_size(historial) > MAX_HISTORIAL)
+    {
         free(list_popBack(historial));
     }
     
     // Escribir el historial actualizado
     archivo = fopen(ARCHIVO_HISTORIAL, "w");
-    if (!archivo) {
+    if (!archivo)
+    {
         list_clean(historial);
         free(historial);
         return;
     }
     
-    for (RegistroHistorial *registro = list_first(historial); registro != NULL; registro = list_next(historial)) {
+    for (RegistroHistorial *registro = list_first(historial); registro != NULL; registro = list_next(historial))
+    {
         fprintf(archivo, "%s;%s\n", registro->nombre_usuario, registro->nombre_juego);
     }
     
@@ -138,20 +149,23 @@ void agregar_al_historial(const char *nombre_usuario, const char *nombre_juego) 
     free(historial);
 }
 
-void buscar_juego(Map *mapa, EspecificacionesPC *pc, const char *nombre_usuario) {
+void buscar_juego(Map *mapa, EspecificacionesPC *pc, const char *nombre_usuario)
+{
     char nombre_juego[100];
     printf("Ingrese el nombre del juego a buscar: ");
     fgets(nombre_juego, sizeof(nombre_juego), stdin);
     nombre_juego[strcspn(nombre_juego, "\n")] = 0;
 
     Juego *juego = map_get(mapa, nombre_juego);
-    if (juego == NULL) {
+    if (juego == NULL)
+    {
         printf("El juego '%s' no se encuentra en el catálogo.\n", nombre_juego);
         return;
     }
 
     int compatibilidad = 0;
-    if (pc->ram > 0) {
+    if (pc->ram > 0)
+    {
         compatibilidad = evaluar_compatibilidad(pc, juego);
     }
 
@@ -159,7 +173,8 @@ void buscar_juego(Map *mapa, EspecificacionesPC *pc, const char *nombre_usuario)
     agregar_al_historial(nombre_usuario, nombre_juego);
 }
 
-void mostrar_catalogo(List *lista, EspecificacionesPC *pc) {
+void mostrar_catalogo(List *lista, EspecificacionesPC *pc)
+{
     printf("\n=== Catálogo Completo ===\n");
     for (Juego *juego = list_first(lista); juego != NULL; juego = list_next(lista)) {
         int compatibilidad = 0;
@@ -170,24 +185,28 @@ void mostrar_catalogo(List *lista, EspecificacionesPC *pc) {
     }
 }
 
-void ver_historial(const char *nombre_usuario) {
+void ver_historial(const char *nombre_usuario)
+{
     printf("\n=== Historial de búsquedas para %s ===\n", nombre_usuario);
     
     List *historial = list_create();
     FILE *archivo = fopen(ARCHIVO_HISTORIAL, "r");
-    if (!archivo) {
+    if (!archivo)
+    {
         printf("No hay historial disponible.\n");
         return;
     }
     
     // Leer el archivo y cargar en lista
     char linea[200];
-    while (fgets(linea, sizeof(linea), archivo)) {
+    while (fgets(linea, sizeof(linea), archivo))
+    {
         linea[strcspn(linea, "\n")] = 0;
         char *usuario = strtok(linea, ";");
         char *juego = strtok(NULL, ";");
         
-        if (usuario && juego) {
+        if (usuario && juego)
+        {
             RegistroHistorial *registro = malloc(sizeof(RegistroHistorial));
             strncpy(registro->nombre_usuario, usuario, MAX_NOMBRE_USUARIO);
             strncpy(registro->nombre_juego, juego, 100);
@@ -198,14 +217,17 @@ void ver_historial(const char *nombre_usuario) {
     
     // Mostrar solo los del usuario
     int encontrado = 0;
-    for (RegistroHistorial *registro = list_first(historial); registro != NULL; registro = list_next(historial)) {
-        if (strcmp(registro->nombre_usuario, nombre_usuario) == 0) {
+    for (RegistroHistorial *registro = list_first(historial); registro != NULL; registro = list_next(historial))
+    {
+        if (strcmp(registro->nombre_usuario, nombre_usuario) == 0)
+        {
             printf("- %s\n", registro->nombre_juego);
             encontrado = 1;
         }
     }
     
-    if (!encontrado) {
+    if (!encontrado)
+    {
         printf("No hay búsquedas registradas para este usuario.\n");
     }
     
@@ -251,13 +273,15 @@ void agregar_juego(Map *mapa, List *lista) {
     printf("Juego agregado exitosamente!\n");
 }
 
-void guardar_catalogo(List *lista) {
+void guardar_catalogo(List *lista)
+{
     FILE *archivo = fopen(ARCHIVO_CATALOGO, "w");
     if (!archivo) {
         printf("Error al abrir el archivo para guardar.\n");
         return;
     }
-    for (Juego *juego = list_first(lista); juego != NULL; juego = list_next(lista)) {
+    for (Juego *juego = list_first(lista); juego != NULL; juego = list_next(lista))
+    {
         fprintf(archivo, "%s,%s,%s,%d,%s,%s,%d\n",
                 juego->nombre,
                 juego->cpu_minimo,
@@ -271,7 +295,8 @@ void guardar_catalogo(List *lista) {
     printf("Catálogo guardado exitosamente.\n");
 }
 
-void mostrar_juego_compatibilidad(Juego *juego, int compatibilidad) {
+void mostrar_juego_compatibilidad(Juego *juego, int compatibilidad)
+{
     printf("\n%s\n", juego->nombre);
     printf("  Mínimos: CPU: %s | GPU: %s | RAM: %dGB\n", juego->cpu_minimo, juego->gpu_minimo, juego->ram_minima);
     printf("  Recomendados: CPU: %s | GPU: %s | RAM: %dGB\n", juego->cpu_recomendada, juego->gpu_recomendada, juego->ram_recomendada);
@@ -284,83 +309,147 @@ void mostrar_juego_compatibilidad(Juego *juego, int compatibilidad) {
         printf("No compatible\n");
 }
 
-void cargar_catalogo(Map *mapa, List *lista) {
+// Mejorar cargar_catalogo
+void cargar_catalogo(Map *mapa, List *lista)
+{
     FILE *archivo = fopen(ARCHIVO_CATALOGO, "r");
-    if (!archivo) {
-        printf("No se pudo abrir el archivo de catálogo.\n");
+    if (!archivo)
+    {
+        printf("No se pudo abrir el archivo de catálogo. Se creará uno nuevo al guardar.\n");
         return;
     }
+    
+    int juegos_cargados = 0;
     char **campos;
-    while ((campos = leer_linea_csv(archivo, ',')) != NULL) {
+    while ((campos = leer_linea_csv(archivo, ',')) != NULL)
+    {
+        if (campos[0] == NULL || campos[1] == NULL || campos[2] == NULL || 
+            campos[3] == NULL || campos[4] == NULL || campos[5] == NULL || campos[6] == NULL) {
+            printf("Error: Formato inválido en línea del archivo. Se omitirá.\n");
+            continue;
+        }
+        
         Juego *juego = malloc(sizeof(Juego));
+        if (!juego)
+        {
+            printf("Error: Memoria insuficiente.\n");
+            fclose(archivo);
+            return;
+        }
+        
+        // Asignación directa sin validación (riesgoso)
         strncpy(juego->nombre, campos[0], 99);
         strncpy(juego->cpu_minimo, campos[1], 49);
         strncpy(juego->gpu_minimo, campos[2], 49);
-        juego->ram_minima = atoi(campos[3]);
+        juego->ram_minima = atoi(campos[3]); // Sin validar
         strncpy(juego->cpu_recomendada, campos[4], 49);
         strncpy(juego->gpu_recomendada, campos[5], 49);
-        juego->ram_recomendada = atoi(campos[6]);
+        juego->ram_recomendada = atoi(campos[6]); // Sin validar
+        
         list_pushBack(lista, juego);
         map_insert(mapa, strdup(juego->nombre), juego);
+        juegos_cargados++;
     }
+    
     fclose(archivo);
+    printf("Se cargaron %d juegos correctamente.\n", juegos_cargados);
 }
 
-void ver_juegos_compatibles(List *lista, EspecificacionesPC *pc) {
-    typedef struct {
-        Juego *juego;
-        int compatibilidad;
-    } JuegoCompatibilidad;
+int comparar_juegos_compatibilidad(const void *a, const void *b)
+{
+    const Juego *juegoA = *(const Juego **)a;
+    const Juego *juegoB = *(const Juego **)b;
+    EspecificacionesPC *pc = (EspecificacionesPC *)juegoA->cpu_minimo; // Truco para pasar el PC
+    
+    int compatA = evaluar_compatibilidad(pc, (Juego *)juegoA);
+    int compatB = evaluar_compatibilidad(pc, (Juego *)juegoB);
+    
+    // Orden ascendente: 0 (no compatibles) primero, luego 1 (mínimos), luego 2 (recomendados)
+    if (compatA < compatB) return -1;
+    if (compatA > compatB) return 1;
+    return 0;
+}
 
-    List *compatibles = list_create();
-    for (Juego *juego = list_first(lista); juego != NULL; juego = list_next(lista)) {
-        int comp = evaluar_compatibilidad(pc, juego);
-        if (comp > 0) {
-            JuegoCompatibilidad *jc = malloc(sizeof(JuegoCompatibilidad));
-            jc->juego = juego;
-            jc->compatibilidad = comp;
-            list_pushBack(compatibles, jc);
-        }
+void ver_juegos_compatibles(List *lista, EspecificacionesPC *pc)
+{
+    // Crear un arreglo temporal para ordenar
+    int cantidad_juegos = list_size(lista);
+    Juego **juegos_ordenados = malloc(cantidad_juegos * sizeof(Juego *));
+    
+    // Copiar los juegos al arreglo
+    int i = 0;
+    for (Juego *juego = list_first(lista); juego != NULL; juego = list_next(lista)) 
+    {
+        juegos_ordenados[i++] = juego;
     }
-
-    // Ordenar compatibles por compatibilidad (descendente)
-    int cantidad = 0;
-    for (JuegoCompatibilidad *jc = list_first(compatibles); jc; jc = list_next(compatibles))
-        cantidad++;
-    for (int i = 0; i < cantidad - 1; i++) {
-        JuegoCompatibilidad *jc1 = list_first(compatibles);
-        for (int j = 0; j < cantidad - i - 1; j++) {
-            JuegoCompatibilidad *jc2 = list_next(compatibles);
-            if (jc2->compatibilidad > jc1->compatibilidad) {
-                JuegoCompatibilidad tmp = *jc1;
-                *jc1 = *jc2;
-                *jc2 = tmp;
-            }
-            jc1 = jc2;
-        }
-    }
-
+    
+    // Usar qsort para ordenar
+    qsort(juegos_ordenados, cantidad_juegos, sizeof(Juego *), comparar_juegos_compatibilidad);
+    
+    // Mostrar los juegos compatibles
     printf("\n=== Juegos compatibles ===\n");
-    for (JuegoCompatibilidad *jc = list_first(compatibles); jc; jc = list_next(compatibles)) {
-        mostrar_juego_compatibilidad(jc->juego, jc->compatibilidad);
+    
+    // Primero mostrar no compatibles (compatibilidad 0)
+    for (i = 0; i < cantidad_juegos; i++) 
+    {
+        int compatibilidad = evaluar_compatibilidad(pc, juegos_ordenados[i]);
+        if (compatibilidad == 0) {
+            mostrar_juego_compatibilidad(juegos_ordenados[i], compatibilidad);
+        }
     }
-
-    // Liberar memoria auxiliar
-    for (JuegoCompatibilidad *jc = list_first(compatibles); jc; jc = list_next(compatibles))
-        free(jc);
-    free(compatibles);
+    
+    // Luego mostrar que cumplen mínimos (compatibilidad 1)
+    for (i = 0; i < cantidad_juegos; i++) 
+    {
+        int compatibilidad = evaluar_compatibilidad(pc, juegos_ordenados[i]);
+        if (compatibilidad == 1) {
+            mostrar_juego_compatibilidad(juegos_ordenados[i], compatibilidad);
+        }
+    }
+    
+    // Finalmente mostrar recomendados (compatibilidad 2)
+    for (i = 0; i < cantidad_juegos; i++) 
+    {
+        int compatibilidad = evaluar_compatibilidad(pc, juegos_ordenados[i]);
+        if (compatibilidad == 2) {
+            mostrar_juego_compatibilidad(juegos_ordenados[i], compatibilidad);
+        }
+    }
+    
+    free(juegos_ordenados);
 }
 
-void ingresar_especificaciones(EspecificacionesPC *pc) {
+// Mejorar la función ingresar_especificaciones
+void ingresar_especificaciones(EspecificacionesPC *pc) 
+{
     printf("Ingrese CPU (ej: i7-4790): ");
     fgets(pc->cpu, 50, stdin);
     pc->cpu[strcspn(pc->cpu, "\n")] = 0;
+    
     printf("Ingrese GPU (ej: GTX 1060): ");
     fgets(pc->gpu, 50, stdin);
     pc->gpu[strcspn(pc->gpu, "\n")] = 0;
-    printf("Ingrese RAM (GB): ");
-    scanf("%d", &pc->ram);
-    while (getchar() != '\n');
+    
+    // Validar entrada de RAM
+    int ram_valida = 0;
+    while (!ram_valida)
+    {
+        printf("Ingrese RAM (GB, mínimo 1): ");
+        if (scanf("%d", &pc->ram) != 1) {
+            printf("Entrada inválida. ");
+            while (getchar() != '\n'); // Limpiar buffer
+            continue;
+        }
+        while (getchar() != '\n');
+        
+        if (pc->ram < 1)
+        {
+            printf("La RAM debe ser al menos 1GB. ");
+        } else
+        {
+            ram_valida = 1;
+        }
+    }
 }
 
 void menu_principal() {
