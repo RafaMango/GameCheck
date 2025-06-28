@@ -236,7 +236,9 @@ ComponenteConPuntaje puntajes_gpu[] = {
     {"RX 7900 XT", 110},
     {"RX 7900 XTX", 120}
 };
-
+/* Libera la memoria de un Map (con claves strdup) y una List de Juegos. 
+   Primero libera los juegos de la lista, luego las claves del mapa, 
+   y finalmente las estructuras principales. */
 void liberar_memoria(Map *mapa, List *lista) {
     // Liberar memoria de los juegos en la lista
     Juego *juego;
@@ -257,7 +259,7 @@ void liberar_memoria(Map *mapa, List *lista) {
     free(lista);
 }
 
-// Función para obtener puntaje dado un modelo
+// Función para obtener puntaje dado un modelo, usa un array como TDA principal.
 int obtener_puntaje(ComponenteConPuntaje *tabla, int cantidad, const char *modelo_usuario)
 {
     for (int i = 0; i < cantidad; i++)
@@ -301,7 +303,7 @@ int evaluar_compatibilidad(EspecificacionesPC *pc, Juego *juego)
 
     return 0; // Nivel de compatibilidad: No compatible
 }
-
+// Agrega un registro al historial, guardando solo los últimos MAX_HISTORIAL. Usa una lista enlazada para manejar los registros en memoria y un archivo para persistencia.  
 void agregar_al_historial(const char *nombre_usuario, const char *nombre_juego)
 {
     // Crear el nuevo registro
@@ -359,7 +361,7 @@ void agregar_al_historial(const char *nombre_usuario, const char *nombre_juego)
     list_clean(historial);
     free(historial);
 }
-
+// Busca un juego en el catálogo (Map) y muestra su compatibilidad con el PC del usuario. Usa de TDA un mapa.
 void buscar_juego(Map *mapa, EspecificacionesPC *pc, const char *nombre_usuario)
 {
     char nombre_juego[100];
@@ -383,7 +385,7 @@ void buscar_juego(Map *mapa, EspecificacionesPC *pc, const char *nombre_usuario)
     mostrar_juego_compatibilidad(juego, compatibilidad);
     agregar_al_historial(nombre_usuario, nombre_juego);
 }
-
+// Muestra todos los juegos del catálogo (List) con su nivel de compatibilidad con el PC. Usa de TDA una lista enlazada.
 void mostrar_catalogo(List *lista, EspecificacionesPC *pc)
 {
     printf("\n=== Catálogo Completo ===\n");
